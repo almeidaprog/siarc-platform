@@ -1,0 +1,38 @@
+[
+  {
+    "timestamp": "2026-04-08T10:15:22-03:00",
+    "src_ip": "192.168.0.23",
+    "dst_ip": "10.0.0.5",
+    "event_type": "port_scan",
+    "severity": "medium",
+    "payload": "scan ports 21,22,80,443",
+    "user_email": "[REDACTED]",
+    "cpf": "[REDACTED]",
+    "cyber_security_score_preliminar": 55,
+    "governance_status": "LGPD_SANITIZED"
+  },
+  {
+    "timestamp": "2026-04-09T15:44:10-03:00",
+    "src_ip": "192.168.0.45",
+    "dst_ip": "10.0.0.8",
+    "event_type": "suspicious_binary",
+    "severity": "high",
+    "payload": "polymorphic behavior detected: hash changed after execution",
+    "user_email": "[REDACTED]",
+    "cpf": "[REDACTED]",
+    "cyber_security_score_preliminar": 100,
+    "governance_status": "LGPD_SANITIZED"
+  },
+  {
+    "timestamp": "2026-04-11T02:03:59-03:00",
+    "src_ip": "172.16.1.77",
+    "dst_ip": "10.0.0.9",
+    "event_type": "exploit_attempt",
+    "severity": "critical",
+    "payload": "CVE-like exploit pattern, privilege escalation attempt",
+    "user_email": "[REDACTED]",
+    "cpf": "[REDACTED]",
+    "cyber_security_score_preliminar": 100,
+    "governance_status": "LGPD_SANITIZED"
+  }
+]

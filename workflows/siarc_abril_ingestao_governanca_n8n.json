@@ -1,0 +1,53 @@
+{
+  "name": "SIARC Abril - Ingestão e Governança de Logs",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "siarc/security-event",
+        "responseMode": "responseNode"
+      },
+      "id": "webhook-security-event",
+      "name": "Receber Evento de Segurança",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://siarc-api:8080/analyze",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.body) }}"
+      },
+      "id": "http-siarc-api-analyze",
+      "name": "Higienizar + Score Preliminar",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [260, 0]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}"
+      },
+      "id": "respond-analysis",
+      "name": "Responder Resultado",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [520, 0]
+    }
+  ],
+  "connections": {
+    "Receber Evento de Segurança": {
+      "main": [[{"node": "Higienizar + Score Preliminar", "type": "main", "index": 0}]]
+    },
+    "Higienizar + Score Preliminar": {
+      "main": [[{"node": "Responder Resultado", "type": "main", "index": 0}]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
