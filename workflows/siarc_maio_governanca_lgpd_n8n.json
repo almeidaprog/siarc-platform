@@ -1,0 +1,243 @@
+{
+  "name": "SIARC Maio - Governança LGPD e Análise de Risco",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "siarc/evento-governanca",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-lgpd-event",
+      "name": "Receber Evento de Segurança",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "notes": "Recebe eventos POST em /webhook/siarc/evento-governanca"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://siarc-api:8080/analyze",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.body) }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "http-full-analysis",
+      "name": "Análise LGPD + Risco XAI",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [260, 0],
+      "notes": "POST /analyze: sanitização LGPD + scoring multifatorial + auditoria"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "high-risk-check",
+              "leftValue": "={{ $json.risk_assessment.score }}",
+              "rightValue": 80,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-risk-level",
+      "name": "Risco Crítico? (score ≥ 80)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [520, 0],
+      "notes": "Separa eventos críticos/altos para roteamento diferenciado"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "alert-status",
+              "name": "alerta",
+              "value": "ALERTA_CRITICO",
+              "type": "string"
+            },
+            {
+              "id": "alert-priority",
+              "name": "prioridade",
+              "value": "IMEDIATA",
+              "type": "string"
+            },
+            {
+              "id": "alert-message",
+              "name": "mensagem",
+              "value": "={{ 'INCIDENTE CRÍTICO — Score: ' + $json.risk_assessment.score + '/100 — ' + $json.risk_assessment.recommended_action }}",
+              "type": "string"
+            },
+            {
+              "id": "alert-event-id",
+              "name": "event_id",
+              "value": "={{ $json.event_id }}",
+              "type": "string"
+            },
+            {
+              "id": "alert-governance",
+              "name": "governance_status",
+              "value": "={{ $json.governance.compliance_status }}",
+              "type": "string"
+            },
+            {
+              "id": "alert-risk",
+              "name": "risk_assessment",
+              "value": "={{ $json.risk_assessment }}",
+              "type": "object"
+            },
+            {
+              "id": "alert-sanitized",
+              "name": "sanitized_event",
+              "value": "={{ $json.sanitized_event }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-critical-alert",
+      "name": "Enriquecer — Alerta Crítico",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [780, -120],
+      "notes": "Adiciona metadados de alerta para eventos com risco ≥ 80"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "routine-status",
+              "name": "alerta",
+              "value": "ROTINA",
+              "type": "string"
+            },
+            {
+              "id": "routine-priority",
+              "name": "prioridade",
+              "value": "NORMAL",
+              "type": "string"
+            },
+            {
+              "id": "routine-message",
+              "name": "mensagem",
+              "value": "={{ 'Evento processado — Score: ' + $json.risk_assessment.score + '/100 — ' + $json.risk_assessment.recommended_action }}",
+              "type": "string"
+            },
+            {
+              "id": "routine-event-id",
+              "name": "event_id",
+              "value": "={{ $json.event_id }}",
+              "type": "string"
+            },
+            {
+              "id": "routine-governance",
+              "name": "governance_status",
+              "value": "={{ $json.governance.compliance_status }}",
+              "type": "string"
+            },
+            {
+              "id": "routine-risk",
+              "name": "risk_assessment",
+              "value": "={{ $json.risk_assessment }}",
+              "type": "object"
+            },
+            {
+              "id": "routine-sanitized",
+              "name": "sanitized_event",
+              "value": "={{ $json.sanitized_event }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-routine-event",
+      "name": "Enriquecer — Evento Rotina",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [780, 120],
+      "notes": "Procesamento padrão para eventos com risco < 80"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "respond-critical",
+      "name": "Responder — Crítico",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1040, -120]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "respond-routine",
+      "name": "Responder — Rotina",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1040, 120]
+    }
+  ],
+  "connections": {
+    "Receber Evento de Segurança": {
+      "main": [
+        [{"node": "Análise LGPD + Risco XAI", "type": "main", "index": 0}]
+      ]
+    },
+    "Análise LGPD + Risco XAI": {
+      "main": [
+        [{"node": "Risco Crítico? (score ≥ 80)", "type": "main", "index": 0}]
+      ]
+    },
+    "Risco Crítico? (score ≥ 80)": {
+      "main": [
+        [{"node": "Enriquecer — Alerta Crítico", "type": "main", "index": 0}],
+        [{"node": "Enriquecer — Evento Rotina", "type": "main", "index": 0}]
+      ]
+    },
+    "Enriquecer — Alerta Crítico": {
+      "main": [
+        [{"node": "Responder — Crítico", "type": "main", "index": 0}]
+      ]
+    },
+    "Enriquecer — Evento Rotina": {
+      "main": [
+        [{"node": "Responder — Rotina", "type": "main", "index": 0}]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "description": "Sprint Maio/2026 — Governança LGPD completa com roteamento por nível de risco. Webhook → LGPD+Risco → IF(score≥80) → Alerta Crítico / Rotina."
+  }
+}
