@@ -1,0 +1,99 @@
+{
+  "version": "1.0",
+  "effective_date": "2026-05-01",
+  "legal_basis": "Lei nº 13.709/2018 (LGPD)",
+  "controller": "SIARC — Sistema Inteligente de Auditoria e Resiliência Cibernética",
+  "dpo_contact": "dpo@siarc.local",
+
+  "processing_purpose": "Auditoria de segurança cibernética: detecção de ameaças, análise de incidentes e proteção de ativos de informação.",
+
+  "policies": [
+    {
+      "id": "POL-001",
+      "name": "Mascaramento de Dados Pessoais em Logs",
+      "description": "Todo dado pessoal identificado em logs de segurança deve ser mascarado antes do armazenamento e análise.",
+      "lgpd_articles": ["Art. 5, I", "Art. 6, III (necessidade)", "Art. 6, VII (segurança)"],
+      "pii_types_covered": ["email", "cpf", "cnpj", "rg", "telefone", "ip_privado"],
+      "masking_strategies": {
+        "email": "PSEUDONIMIZACAO",
+        "cpf": "REDACAO_TOTAL",
+        "cnpj": "MASCARAMENTO_PARCIAL",
+        "rg": "REDACAO_TOTAL",
+        "phone_br": "MASCARAMENTO_PARCIAL",
+        "ip_private": "PSEUDONIMIZACAO"
+      },
+      "active": true
+    },
+    {
+      "id": "POL-002",
+      "name": "Retenção de Dados de Auditoria",
+      "description": "Logs de segurança sanitizados são retidos por 90 dias. A trilha de auditoria é mantida por 5 anos conforme Art. 37.",
+      "lgpd_articles": ["Art. 37 (registro de operações)"],
+      "retention_days_events": 90,
+      "retention_days_audit": 1825,
+      "active": true
+    },
+    {
+      "id": "POL-003",
+      "name": "Base Legal de Tratamento",
+      "description": "O tratamento de dados nos logs de segurança ocorre com base no legítimo interesse do controlador (Art. 7, IX) e para cumprimento de obrigação legal (Art. 7, II), considerando que análise de incidentes de segurança é requisito de conformidade.",
+      "lgpd_articles": ["Art. 7, II", "Art. 7, IX"],
+      "legal_bases_allowed": [
+        "OBRIGACAO_LEGAL",
+        "INTERESSE_LEGITIMO",
+        "PESQUISA_DE_SEGURANCA"
+      ],
+      "active": true
+    },
+    {
+      "id": "POL-004",
+      "name": "Minimização de Dados",
+      "description": "Apenas campos estritamente necessários para análise de segurança são processados. Campos extras não essenciais disparam alerta de revisão.",
+      "lgpd_articles": ["Art. 6, III (necessidade)"],
+      "essential_fields": ["timestamp", "src_ip", "dst_ip", "event_type", "severity", "payload"],
+      "active": true
+    },
+    {
+      "id": "POL-005",
+      "name": "Trilha de Auditoria Obrigatória",
+      "description": "Todas as operações de tratamento de dados pessoais devem ser registradas na trilha de auditoria com: timestamp, ação, responsável e resultado.",
+      "lgpd_articles": ["Art. 37"],
+      "mandatory_fields_in_audit": ["audit_timestamp", "event_id", "action", "actor", "outcome"],
+      "active": true
+    },
+    {
+      "id": "POL-006",
+      "name": "Avaliação dos 10 Princípios LGPD",
+      "description": "Cada evento processado deve ser avaliado contra os 10 princípios do Art. 6. Eventos não conformes geram status ATENCAO_LGPD.",
+      "lgpd_articles": ["Art. 6"],
+      "principles": [
+        "finalidade",
+        "adequacao",
+        "necessidade",
+        "livre_acesso",
+        "qualidade_dos_dados",
+        "transparencia",
+        "seguranca",
+        "prevencao",
+        "nao_discriminacao",
+        "responsabilizacao"
+      ],
+      "active": true
+    }
+  ],
+
+  "data_subject_rights": {
+    "access": "GET /audit/entries?event_id={id}",
+    "correction": "Não aplicável para logs de segurança (imutabilidade é requisito)",
+    "deletion": "Solicitações via dpo@siarc.local, sujeito à retenção mínima legal",
+    "portability": "Formato JSON — disponível via API",
+    "objection": "Avaliação caso a caso pelo DPO"
+  },
+
+  "risk_thresholds": {
+    "low":      {"min": 0,  "max": 29, "action": "MONITORAR"},
+    "medium":   {"min": 30, "max": 59, "action": "INVESTIGAR"},
+    "high":     {"min": 60, "max": 79, "action": "ALERTAR"},
+    "critical": {"min": 80, "max": 100, "action": "RESPONDER"}
+  }
+}
