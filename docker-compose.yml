@@ -1,4 +1,6 @@
 services:
+
+  # ── n8n: orquestrador de workflows ──────────────────────────────────────
   n8n:
     image: n8nio/n8n:latest
     container_name: siarc-n8n-sandbox
@@ -6,7 +8,7 @@ services:
     ports:
       - "5678:5678"
     env_file:
-      - .env.example
+      - .env
     environment:
       - N8N_HOST=localhost
       - N8N_PORT=5678
@@ -14,14 +16,21 @@ services:
       - NODE_ENV=development
       - WEBHOOK_URL=http://localhost:5678/
       - GENERIC_TIMEZONE=America/Bahia
-      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY:-troque_esta_chave_em_producao_32_chars}
+      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY:-troque_esta_chave_em_producao_32_ch}
     volumes:
       - n8n_data:/home/node/.n8n
       - ./data:/data
       - ./workflows:/workflows
     networks:
       - siarc_sandbox
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:5678/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
 
+  # ── SIARC API: FastAPI de governança e análise ──────────────────────────
   siarc-api:
     build:
       context: .
@@ -34,6 +43,12 @@ services:
       - ./data:/app/data
     networks:
       - siarc_sandbox
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 
 networks:
   siarc_sandbox:
