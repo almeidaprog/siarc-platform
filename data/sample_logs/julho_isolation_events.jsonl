@@ -1,0 +1,5 @@
+{"event_id": "evt-iso-001", "timestamp": "2026-07-02T03:14:22-03:00", "src_ip": "203.0.113.88", "verdict": "EXPLOIT_CRITICO", "score": 92, "is_zero_day": true}
+{"event_id": "evt-iso-002", "timestamp": "2026-07-03T14:05:10-03:00", "src_ip": "198.51.100.20", "level": "CRÍTICO", "score": 85, "is_zero_day": false}
+{"event_id": "evt-iso-003", "timestamp": "2026-07-04T09:40:00-03:00", "src_ip": "10.0.0.44", "verdict": "EXPLOIT_CONFIRMADO", "score": 65, "is_zero_day": false}
+{"event_id": "evt-iso-004", "timestamp": "2026-07-05T22:10:33-03:00", "src_ip": "192.0.2.15", "verdict": "SUSPEITO", "score": 30, "is_zero_day": false}
+{"event_id": "evt-iso-005", "timestamp": "2026-07-06T11:00:00-03:00", "src_ip": "10.0.0.9", "verdict": "LIMPO", "score": 5, "is_zero_day": false}
