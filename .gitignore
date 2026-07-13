@@ -1,0 +1,48 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+.serena
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+.model_cache
+# Django migrations (keep __init__.py for app recognition)
+*/migrations/
+!*/migrations/__init__.py
+
+# Sensitive files
+*.env
+.env
+*.secret
+
+# Django database (for local SQLite use)
+db.sqlite3
+*.sqlite3
+
+# Uploaded bibliographic files (BibTeX, RIS, etc.)
+uploads/
+*.bib
+*.ris
+
+# Static/media (if dynamically generated)
+staticfiles/
+media/
+
+# VSCode, PyCharm, and other IDEs
+.vscode/
+.idea/
+
+# OS-specific junk
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Dependencies
+*.egg-info/
+dist/
+build/

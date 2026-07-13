@@ -113,6 +113,8 @@ python scripts/log_governance.py
 |---|---|---|
 | Abril/2026 | `workflows/siarc_abril_ingestao_governanca_n8n.json` | Ingestão básica → API → Resposta |
 | Maio/2026 | `workflows/siarc_maio_governanca_lgpd_n8n.json` | LGPD + Risco XAI + Roteamento por criticidade |
+| Junho/2026 | `workflows/siarc_junho_exploit_detection_n8n.json` | Detecção de exploits (CVE + MITRE + XAI) |
+| Julho/2026 | `workflows/siarc_julho_isolamento_resposta_ativa_n8n.json` | Resposta ativa: simulação de isolamento de host |
 
 4. Ative o workflow clicando no toggle superior direito
 
@@ -246,8 +248,8 @@ siarc-platform/
 |---|---|---|
 | Abril/2026 | Ambiente sandbox + ingestão + LGPD básica | ✅ Concluído |
 | Maio/2026 | Camada LGPD completa + risco XAI + auditoria Art. 37 | ✅ Concluído |
-| Junho/2026 | Detecção comportamental de malwares mutáveis | Planejado |
-| Julho/2026 | Resposta ativa: isolamento automático de hosts | Planejado |
+| Junho/2026 | Detecção comportamental de malwares mutáveis | ✅ Concluído |
+| Julho/2026 | Resposta ativa: isolamento automático de hosts (simulação n8n) | 🟡 Parcial — isolamento pronto; Cyber Security Score unificado + API em andamento (outro colaborador) |
 | Agosto/2026 | Dashboard de monitoramento + alertas em tempo real | Planejado |
 | Setembro/2026 | ML para detecção de anomalias | Planejado |
 
