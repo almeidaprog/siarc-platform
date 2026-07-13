@@ -1,0 +1,249 @@
+{
+  "name": "SIARC Julho - Resposta Ativa (Simulação de Isolamento de Host)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "siarc/host-isolation",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-isolation-event",
+      "name": "Receber Evento Pontuado",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "notes": "Recebe evento já pontuado por outro fluxo (score/verdict/is_zero_day) em POST /webhook/siarc/host-isolation. Este workflow NÃO calcula score — apenas decide e simula a resposta ativa."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "score-check",
+              "leftValue": "={{ Number($json.body.score || $json.body.exploit_score || $json.body.risk_score || 0) }}",
+              "rightValue": 80,
+              "operator": { "type": "number", "operation": "gte" }
+            },
+            {
+              "id": "verdict-check-pt",
+              "leftValue": "={{ $json.body.verdict || $json.body.level }}",
+              "rightValue": "EXPLOIT_CRITICO",
+              "operator": { "type": "string", "operation": "equals" }
+            },
+            {
+              "id": "verdict-check-level",
+              "leftValue": "={{ $json.body.verdict || $json.body.level }}",
+              "rightValue": "CRÍTICO",
+              "operator": { "type": "string", "operation": "equals" }
+            },
+            {
+              "id": "zero-day-check",
+              "leftValue": "={{ $json.body.is_zero_day === true }}",
+              "rightValue": true,
+              "operator": { "type": "boolean", "operation": "equal" }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "check-isolation-threshold",
+      "name": "Isolamento Necessário? (score≥80 OU crítico OU zero-day)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [260, 0],
+      "notes": "Limiar de resposta ativa: score>=80 OU verdict/level crítico OU zero-day confirmado"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "iso-id",
+              "name": "isolation_id",
+              "value": "={{ 'ISO-' + $now.toMillis() + '-' + Math.floor(Math.random() * 1000000) }}",
+              "type": "string"
+            },
+            {
+              "id": "iso-host",
+              "name": "host",
+              "value": "={{ $json.body.src_ip || 'desconhecido' }}",
+              "type": "string"
+            },
+            {
+              "id": "iso-event-id",
+              "name": "event_id",
+              "value": "={{ $json.body.event_id || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "iso-status",
+              "name": "status",
+              "value": "ISOLADO_SANDBOX",
+              "type": "string"
+            },
+            {
+              "id": "iso-simulated",
+              "name": "simulated",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "iso-at",
+              "name": "isolated_at",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "iso-ttl",
+              "name": "ttl_hours",
+              "value": 4,
+              "type": "number"
+            },
+            {
+              "id": "iso-expires",
+              "name": "expires_at",
+              "value": "={{ $now.plus({ hours: 4 }).toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "iso-review",
+              "name": "requires_human_review",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "iso-rules",
+              "name": "firewall_rules_simulated",
+              "value": "={{ ['DROP ALL FROM ' + ($json.body.src_ip || 'desconhecido'), 'DROP ALL TO ' + ($json.body.src_ip || 'desconhecido'), 'ALLOW mgmt-gateway <-> ' + ($json.body.src_ip || 'desconhecido')] }}",
+              "type": "array"
+            },
+            {
+              "id": "iso-playbook",
+              "name": "playbook",
+              "value": "={{ ['1. Bloquear host ' + ($json.body.src_ip || 'desconhecido') + ' no firewall perimetral (DROP ALL INBOUND/OUTBOUND)', '2. Permitir apenas trafego do gateway de gestao do SOC (allowlist)', '3. Revogar sessoes e tokens ativos associados ao host', '4. Disparar snapshot de memoria/disco para analise forense', '5. Notificar equipe SOC e abrir ticket de resposta a incidente', '6. Reavaliacao humana obrigatoria em ate 4h (expira em ' + $now.plus({ hours: 4 }).toISO() + ')'] }}",
+              "type": "array"
+            },
+            {
+              "id": "iso-xai",
+              "name": "xai_explanation",
+              "value": "={{ ['[DECISAO] score=' + ($json.body.score || $json.body.exploit_score || $json.body.risk_score || 0) + ' verdict=' + ($json.body.verdict || $json.body.level || 'N/A') + ' zero_day=' + ($json.body.is_zero_day === true) + ' atingiu o limiar de resposta ativa (score>=80 OU verdict/level critico OU zero-day)', '[ACAO] Isolamento SIMULADO em ambiente de sandbox — nenhuma alteracao real de rede/firewall foi executada', '[REVISAO] Isolamento valido por 4h, sujeito a revisao humana antes de liberacao ou escalonamento para incidente'] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-isolation-ticket",
+      "name": "Simular Isolamento de Host (Playbook)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [520, -100],
+      "notes": "Gera o ticket de isolamento simulado: regras de firewall (simuladas), playbook de resposta e explicação XAI da decisão. Sandbox — nenhuma ação real de rede é executada."
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "mon-host",
+              "name": "host",
+              "value": "={{ $json.body.src_ip || 'desconhecido' }}",
+              "type": "string"
+            },
+            {
+              "id": "mon-event-id",
+              "name": "event_id",
+              "value": "={{ $json.body.event_id || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "mon-status",
+              "name": "status",
+              "value": "MONITORAMENTO",
+              "type": "string"
+            },
+            {
+              "id": "mon-simulated",
+              "name": "simulated",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "mon-xai",
+              "name": "xai_explanation",
+              "value": "={{ ['[DECISAO] score=' + ($json.body.score || $json.body.exploit_score || $json.body.risk_score || 0) + ' verdict=' + ($json.body.verdict || $json.body.level || 'N/A') + ' abaixo do limiar de isolamento', '[ACAO] Nenhum isolamento acionado — evento permanece em monitoramento padrão'] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-monitoring",
+      "name": "Não Isolar — Manter Monitoramento",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [520, 100],
+      "notes": "Score/verdict abaixo do limiar de resposta ativa: nenhuma ação de isolamento é simulada"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": { "responseCode": 200 }
+      },
+      "id": "respond-isolation",
+      "name": "Responder — Isolamento",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [780, -100]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": { "responseCode": 200 }
+      },
+      "id": "respond-monitoring",
+      "name": "Responder — Monitoramento",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [780, 100]
+    }
+  ],
+  "connections": {
+    "Receber Evento Pontuado": {
+      "main": [
+        [{ "node": "Isolamento Necessário? (score≥80 OU crítico OU zero-day)", "type": "main", "index": 0 }]
+      ]
+    },
+    "Isolamento Necessário? (score≥80 OU crítico OU zero-day)": {
+      "main": [
+        [{ "node": "Simular Isolamento de Host (Playbook)", "type": "main", "index": 0 }],
+        [{ "node": "Não Isolar — Manter Monitoramento", "type": "main", "index": 0 }]
+      ]
+    },
+    "Simular Isolamento de Host (Playbook)": {
+      "main": [
+        [{ "node": "Responder — Isolamento", "type": "main", "index": 0 }]
+      ]
+    },
+    "Não Isolar — Manter Monitoramento": {
+      "main": [
+        [{ "node": "Responder — Monitoramento", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "description": "Sprint Julho/2026 — Simulação de resposta ativa: recebe um evento já pontuado (score/verdict/is_zero_day, produzido por outro fluxo de detecção) e decide/simula o isolamento de host em ambiente de sandbox: playbook de resposta, regras de firewall simuladas e TTL para revisão humana. Não calcula score e não depende da SIARC API — escopo de detecção/score é de outro colaborador."
+  }
+}
