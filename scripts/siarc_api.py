@@ -1,5 +1,5 @@
 """
-SIARC API — Sprint Junho/2026
+API principal do SIARC
 
 Endpoints disponíveis:
   GET  /health                     — verificação de saúde
@@ -22,6 +22,7 @@ from pydantic import BaseModel
 
 from scripts.lgpd_engine import apply_lgpd_governance, LegalBasis
 from scripts.risk_engine import calculate_risk
+from scripts.active_response import build_active_response
 from scripts.exploit_analyzer import (
     analyze_exploit,
     push_to_history,
@@ -36,7 +37,7 @@ app = FastAPI(
         "Implementa conformidade LGPD (Lei 13.709/2018), scoring XAI, "
         "trilha de auditoria e análise especializada de exploits (Sprint Junho/2026)."
     ),
-    version="0.3.0",
+    version="0.4.0",
 )
 
 _POLICIES_PATH = Path("data/governance_policies.json")
@@ -78,17 +79,17 @@ class ExploitBatchRequest(BaseModel):
 
 @app.get("/health", summary="Health check")
 def health() -> Dict[str, str]:
-    return {"status": "ok", "service": "siarc-api", "version": "0.2.0"}
+    return {"status": "ok", "service": "siarc-api", "version": "0.4.0"}
 
 
 @app.post(
     "/analyze",
-    summary="Análise completa: LGPD + risco XAI + auditoria",
+    summary="Análise de evento com LGPD, score e auditoria",
     response_description="Evento sanitizado com score de risco e decisão de governança",
 )
 def analyze(event: SecurityEvent) -> Dict[str, Any]:
     """
-    Pipeline completo de análise de um evento de segurança:
+    Fluxo usado para analisar um evento de segurança:
 
     1. Aplica governança LGPD (sanitização de PII, avaliação dos 10 princípios Art. 6)
     2. Calcula score de risco multifatorial com explicações XAI
@@ -98,7 +99,7 @@ def analyze(event: SecurityEvent) -> Dict[str, Any]:
     event_id = str(uuid.uuid4())
     raw = event.model_dump()
 
-    # ── 1. Governança LGPD ────────────────────────────────────────────────
+    # ── 1. Tratamento LGPD ────────────────────────────────────────────────
     sanitized, gov_decision = apply_lgpd_governance(
         raw,
         event_id=event_id,
@@ -106,13 +107,21 @@ def analyze(event: SecurityEvent) -> Dict[str, Any]:
         purpose="Auditoria de segurança cibernética — SIARC",
     )
 
-    # ── 2. Avaliação de risco (sobre os dados originais, antes de sanitizar) ──
+    # ── 2. Cálculo do score de risco ──
     risk = calculate_risk(raw)
 
-    # ── 3. Trilha de auditoria ────────────────────────────────────────────
+    # ── 3. Resposta simulada ───────────────────────────────────────
+    active_response = build_active_response(
+        score=risk.score,
+        risk_level=risk.level,
+        target_ip=raw.get("src_ip"),
+        event_id=event_id,
+    )
+
+    # ── 4. Registro de auditoria ────────────────────────────────────────────
     audit_trail.record(
         event_id=event_id,
-        action="FULL_ANALYSIS",
+        action="FULL_ANALYSIS_AND_ACTIVE_RESPONSE",
         outcome="SUCCESS",
         details={
             "event_type": raw.get("event_type"),
@@ -120,12 +129,20 @@ def analyze(event: SecurityEvent) -> Dict[str, Any]:
             "pii_count": len(gov_decision.pii_detected),
             "risk_score": risk.score,
             "risk_level": risk.level,
+            "recommended_action": risk.recommended_action,
+            "active_response_action": active_response["action"],
+            "active_response_status": active_response["status"],
+            "target_ip": raw.get("src_ip"),
             "compliance_status": gov_decision.compliance_status,
         },
     )
 
     return {
         "event_id": event_id,
+        "score": risk.score,
+        "risk_level": risk.level,
+        "recommended_action": risk.recommended_action,
+        "active_response": active_response,
         "sanitized_event": sanitized,
         "governance": gov_decision.to_dict(),
         "risk_assessment": risk.to_dict(),
@@ -134,12 +151,12 @@ def analyze(event: SecurityEvent) -> Dict[str, Any]:
 
 @app.post(
     "/analyze/exploit",
-    summary="Análise especializada de exploit: CVE + MITRE ATT&CK + XAI + correlação temporal",
+    summary="Análise de exploit e correlação de eventos",
     response_description="Perfil de exploit com técnicas detectadas, score e veredito",
 )
 def analyze_exploit_endpoint(event: ExploitEvent) -> Dict[str, Any]:
     """
-    Pipeline de análise especializada de exploits:
+    Fluxo usado nos testes de exploits:
 
     1. Extrai CVEs por regex (CVE-YYYY-NNNNN)
     2. Classifica técnicas de exploit em 18 categorias com mapeamento MITRE ATT&CK
@@ -161,10 +178,20 @@ def analyze_exploit_endpoint(event: ExploitEvent) -> Dict[str, Any]:
         event_id=event_id,
     )
 
-    # ── 2. Adiciona ao histórico de correlação (janela deslizante) ────────
+    # ── 2. Resposta simulada para o resultado do exploit ─────────────────────────
+    active_response = build_active_response(
+        score=profile.exploit_score,
+        risk_level="CRÍTICO" if profile.exploit_score >= 80 else ("ALTO" if profile.exploit_score >= 60 else ("MÉDIO" if profile.exploit_score >= 30 else "BAIXO")),
+        target_ip=raw.get("src_ip"),
+        event_id=event_id,
+        is_zero_day=profile.is_zero_day,
+        verdict=profile.verdict.value,
+    )
+
+    # ── 3. Guarda o evento para correlação com os próximos ────────
     push_to_history(raw)
 
-    # ── 3. Trilha de auditoria ────────────────────────────────────────────
+    # ── 4. Registro de auditoria ────────────────────────────────────────────
     audit_trail.record(
         event_id=event_id,
         action="EXPLOIT_ANALYSIS",
@@ -179,11 +206,17 @@ def analyze_exploit_endpoint(event: ExploitEvent) -> Dict[str, Any]:
             "is_zero_day": profile.is_zero_day,
             "is_polymorphic": profile.is_polymorphic,
             "behavioral_signatures": len(profile.behavioral_signatures),
+            "active_response_action": active_response["action"],
+            "active_response_status": active_response["status"],
         },
     )
 
     return {
         "event_id": event_id,
+        "score": profile.exploit_score,
+        "risk_level": "CRÍTICO" if profile.exploit_score >= 80 else ("ALTO" if profile.exploit_score >= 60 else ("MÉDIO" if profile.exploit_score >= 30 else "BAIXO")),
+        "recommended_action": active_response["action"],
+        "active_response": active_response,
         "exploit_analysis": profile.to_dict(),
     }
 
