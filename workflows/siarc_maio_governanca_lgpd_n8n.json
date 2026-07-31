@@ -12,7 +12,10 @@
       "name": "Receber Evento de Segurança",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
-      "position": [0, 0],
+      "position": [
+        0,
+        0
+      ],
       "notes": "Recebe eventos POST em /webhook/siarc/evento-governanca"
     },
     {
@@ -24,13 +27,25 @@
         "jsonBody": "={{ JSON.stringify($json.body) }}",
         "options": {
           "timeout": 10000
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "={{$env.SIARC_API_KEY}}"
+            }
+          ]
         }
       },
       "id": "http-full-analysis",
       "name": "Análise LGPD + Risco XAI",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [260, 0],
+      "position": [
+        260,
+        0
+      ],
       "notes": "POST /analyze: sanitização LGPD + scoring multifatorial + auditoria"
     },
     {
@@ -60,7 +75,10 @@
       "name": "Risco Crítico? (score ≥ 80)",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
-      "position": [520, 0],
+      "position": [
+        520,
+        0
+      ],
       "notes": "Separa eventos críticos/altos para roteamento diferenciado"
     },
     {
@@ -117,7 +135,10 @@
       "name": "Enriquecer — Alerta Crítico",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
-      "position": [780, -120],
+      "position": [
+        780,
+        -120
+      ],
       "notes": "Adiciona metadados de alerta para eventos com risco ≥ 80"
     },
     {
@@ -174,7 +195,10 @@
       "name": "Enriquecer — Evento Rotina",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
-      "position": [780, 120],
+      "position": [
+        780,
+        120
+      ],
       "notes": "Procesamento padrão para eventos com risco < 80"
     },
     {
@@ -189,7 +213,10 @@
       "name": "Responder — Crítico",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
-      "position": [1040, -120]
+      "position": [
+        1040,
+        -120
+      ]
     },
     {
       "parameters": {
@@ -203,34 +230,73 @@
       "name": "Responder — Rotina",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
-      "position": [1040, 120]
+      "position": [
+        1040,
+        120
+      ]
     }
   ],
   "connections": {
     "Receber Evento de Segurança": {
       "main": [
-        [{"node": "Análise LGPD + Risco XAI", "type": "main", "index": 0}]
+        [
+          {
+            "node": "Análise LGPD + Risco XAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Análise LGPD + Risco XAI": {
       "main": [
-        [{"node": "Risco Crítico? (score ≥ 80)", "type": "main", "index": 0}]
+        [
+          {
+            "node": "Risco Crítico? (score ≥ 80)",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Risco Crítico? (score ≥ 80)": {
       "main": [
-        [{"node": "Enriquecer — Alerta Crítico", "type": "main", "index": 0}],
-        [{"node": "Enriquecer — Evento Rotina", "type": "main", "index": 0}]
+        [
+          {
+            "node": "Enriquecer — Alerta Crítico",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enriquecer — Evento Rotina",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Enriquecer — Alerta Crítico": {
       "main": [
-        [{"node": "Responder — Crítico", "type": "main", "index": 0}]
+        [
+          {
+            "node": "Responder — Crítico",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Enriquecer — Evento Rotina": {
       "main": [
-        [{"node": "Responder — Rotina", "type": "main", "index": 0}]
+        [
+          {
+            "node": "Responder — Rotina",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },

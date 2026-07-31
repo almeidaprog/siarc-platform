@@ -11,7 +11,10 @@
       "name": "Receber Evento de Segurança",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
-      "position": [0, 0]
+      "position": [
+        0,
+        0
+      ]
     },
     {
       "parameters": {
@@ -19,13 +22,25 @@
         "url": "http://siarc-api:8080/analyze",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify($json.body) }}"
+        "jsonBody": "={{ JSON.stringify($json.body) }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "={{$env.SIARC_API_KEY}}"
+            }
+          ]
+        }
       },
       "id": "http-siarc-api-analyze",
       "name": "Higienizar + Score Preliminar",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [260, 0]
+      "position": [
+        260,
+        0
+      ]
     },
     {
       "parameters": {
@@ -36,15 +51,34 @@
       "name": "Responder Resultado",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
-      "position": [520, 0]
+      "position": [
+        520,
+        0
+      ]
     }
   ],
   "connections": {
     "Receber Evento de Segurança": {
-      "main": [[{"node": "Higienizar + Score Preliminar", "type": "main", "index": 0}]]
+      "main": [
+        [
+          {
+            "node": "Higienizar + Score Preliminar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Higienizar + Score Preliminar": {
-      "main": [[{"node": "Responder Resultado", "type": "main", "index": 0}]]
+      "main": [
+        [
+          {
+            "node": "Responder Resultado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {

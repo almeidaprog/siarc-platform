@@ -13,11 +13,13 @@ Endpoints disponíveis:
   GET  /audit/summary              — resumo estatístico da trilha
 """
 import json
+import os
+import secrets
 import uuid
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import APIRouter, Depends, FastAPI, Header, HTTPException, Query
 from pydantic import BaseModel
 
 from scripts.lgpd_engine import apply_lgpd_governance, LegalBasis
@@ -41,6 +43,23 @@ app = FastAPI(
 )
 
 _POLICIES_PATH = Path("data/governance_policies.json")
+
+
+# ---------------------------------------------------------------------------
+# Autenticação por API key (header X-API-Key)
+# ---------------------------------------------------------------------------
+# Exigida em qualquer deploy fora de localhost — ex.: testes na rede da
+# instituição. Chave definida via variável de ambiente SIARC_API_KEY.
+
+def verify_api_key(x_api_key: str = Header(default="", alias="X-API-Key")) -> None:
+    expected = os.environ.get("SIARC_API_KEY", "")
+    if not expected:
+        raise HTTPException(status_code=503, detail="SIARC_API_KEY não configurada no servidor.")
+    if not secrets.compare_digest(x_api_key, expected):
+        raise HTTPException(status_code=401, detail="API key ausente ou inválida (header X-API-Key).")
+
+
+router = APIRouter(dependencies=[Depends(verify_api_key)])
 
 
 # ---------------------------------------------------------------------------
@@ -82,7 +101,7 @@ def health() -> Dict[str, str]:
     return {"status": "ok", "service": "siarc-api", "version": "0.4.0"}
 
 
-@app.post(
+@router.post(
     "/analyze",
     summary="Análise de evento com LGPD, score e auditoria",
     response_description="Evento sanitizado com score de risco e decisão de governança",
@@ -149,7 +168,7 @@ def analyze(event: SecurityEvent) -> Dict[str, Any]:
     }
 
 
-@app.post(
+@router.post(
     "/analyze/exploit",
     summary="Análise de exploit e correlação de eventos",
     response_description="Perfil de exploit com técnicas detectadas, score e veredito",
@@ -221,7 +240,7 @@ def analyze_exploit_endpoint(event: ExploitEvent) -> Dict[str, Any]:
     }
 
 
-@app.post(
+@router.post(
     "/analyze/exploit/batch",
     summary="Análise em lote de exploits com correlação cruzada entre eventos",
     response_description="Lista de perfis de exploit analisados com correlação entre eventos",
@@ -281,7 +300,7 @@ def analyze_exploit_batch(request: ExploitBatchRequest) -> Dict[str, Any]:
     }
 
 
-@app.get(
+@router.get(
     "/exploit/history",
     summary="Eventos recentes no histórico da janela deslizante de correlação",
 )
@@ -302,7 +321,7 @@ def exploit_history(window_seconds: int = Query(default=300, ge=60, le=3600)) ->
     }
 
 
-@app.get(
+@router.get(
     "/governance/policies",
     summary="Lista políticas de governança ativas",
 )
@@ -312,7 +331,7 @@ def list_policies() -> Dict[str, Any]:
     return json.loads(_POLICIES_PATH.read_text(encoding="utf-8"))
 
 
-@app.get(
+@router.get(
     "/governance/report",
     summary="Relatório de conformidade LGPD",
 )
@@ -336,7 +355,7 @@ def governance_report() -> Dict[str, Any]:
     }
 
 
-@app.get(
+@router.get(
     "/audit/entries",
     summary="Entradas recentes da trilha de auditoria (LGPD Art. 37)",
 )
@@ -349,9 +368,12 @@ def audit_entries(limit: int = Query(default=20, ge=1, le=100)) -> Dict[str, Any
     }
 
 
-@app.get(
+@router.get(
     "/audit/summary",
     summary="Resumo estatístico da trilha de auditoria",
 )
 def audit_summary() -> Dict[str, Any]:
     return audit_trail.get_summary()
+
+
+app.include_router(router)
