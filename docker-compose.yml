@@ -1,6 +1,23 @@
 services:
 
-  # ── n8n: orquestrador de workflows ──────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: siarc-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-siarc}
+      POSTGRES_USER: ${POSTGRES_USER:-siarc}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-siarc_dev_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - siarc_sandbox
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-siarc} -d ${POSTGRES_DB:-siarc}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   n8n:
     image: n8nio/n8n:latest
     container_name: siarc-n8n-sandbox
@@ -23,14 +40,7 @@ services:
       - ./workflows:/workflows
     networks:
       - siarc_sandbox
-    healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:5678/healthz"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 20s
 
-  # ── SIARC API: FastAPI de governança e análise ──────────────────────────
   siarc-api:
     build:
       context: .
@@ -39,6 +49,12 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-postgresql+psycopg://siarc:siarc_dev_password@postgres:5432/siarc}
+      - SIARC_SANITIZER_ENABLED=${SIARC_SANITIZER_ENABLED:-1}
+    depends_on:
+      postgres:
+        condition: service_healthy
     ports:
       - "8080:8080"
     volumes:
@@ -58,3 +74,4 @@ networks:
 
 volumes:
   n8n_data:
+  postgres_data:

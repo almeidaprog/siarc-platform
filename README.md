@@ -279,3 +279,30 @@ Estratégias de mascaramento:
 - ANDERSON, Ross. Security Engineering. 3. ed. Wiley, 2020.
 - TIRONE, Michele et al. Explainable Artificial Intelligence for Cyber Security. Springer, 2022.
 - MITRE ATT&CK Framework. https://attack.mitre.org
+
+## ACDSA 2027 quantitative evaluation revision (August 2026)
+
+This revision implements the technical changes requested in the ACDSA preparation memo:
+
+- stage-level timing on `/analyze`: `t_san`, `t_score`, `t_db`, and total processing time;
+- SQL-backed audit trail with PostgreSQL as the Docker Compose backend;
+- privacy-overhead switch (`SIARC_SANITIZER_ENABLED=0/1`);
+- Locust workload (`experiments/locustfile.py`);
+- portable benchmark (`experiments/benchmark_local.py`);
+- UNSW-NB15 replay adapter (`experiments/replay_unsw_nb15.py`);
+- exported machine-readable results in `results/`.
+
+### Recommended final experiment (Docker + PostgreSQL)
+
+1. Copy `.env.example` to `.env` and replace the development secrets.
+2. Run `docker compose up --build`.
+3. Install the Python dependencies in the host environment.
+4. Run Locust against `http://localhost:8080` at 1, 10, 25, 50, 100 and 200 users.
+5. Export the Locust CSV statistics and retain `data/performance_metrics.jsonl`.
+6. Repeat with `SIARC_SANITIZER_ENABLED=0` and then `=1` to estimate privacy overhead.
+
+The portable benchmark included in `results/` is a reproducibility check executed with SQLite because the authoring environment used to produce the revision does not provide a Docker/PostgreSQL daemon. It must not be represented as a PostgreSQL performance result.
+
+### UNSW-NB15
+
+The replay script expects `data/UNSW_NB15_training-set.csv`. Obtain it from the official UNSW-NB15 project page and cite the dataset authors. The adapter uses labels only to build representative SIARC events for replay/stability testing; it is not an accuracy evaluation and must not be used to claim precision, recall or F1-score.

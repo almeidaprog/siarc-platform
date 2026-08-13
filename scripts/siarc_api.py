@@ -15,11 +15,12 @@ Endpoints disponíveis:
 import json
 import os
 import secrets
+import time
 import uuid
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from fastapi import APIRouter, Depends, FastAPI, Header, HTTPException, Query
+from fastapi import APIRouter, Depends, FastAPI, Header, HTTPException, Query, Request
 from pydantic import BaseModel
 
 from scripts.lgpd_engine import apply_lgpd_governance, LegalBasis
@@ -31,6 +32,7 @@ from scripts.exploit_analyzer import (
     _get_window_events,
 )
 from scripts import audit_trail
+from scripts.performance import record_metric, recent_metrics
 
 app = FastAPI(
     title="SIARC — Sistema Inteligente de Auditoria e Resiliência Cibernética",
@@ -43,6 +45,15 @@ app = FastAPI(
 )
 
 _POLICIES_PATH = Path("data/governance_policies.json")
+
+
+@app.middleware("http")
+async def add_performance_metrics(request: Request, call_next):
+    start = time.perf_counter()
+    response = await call_next(request)
+    process_time_ms = (time.perf_counter() - start) * 1000.0
+    response.headers["X-Process-Time-MS"] = f"{process_time_ms:.3f}"
+    return response
 
 
 # ---------------------------------------------------------------------------
@@ -107,29 +118,38 @@ def health() -> Dict[str, str]:
     response_description="Evento sanitizado com score de risco e decisão de governança",
 )
 def analyze(event: SecurityEvent) -> Dict[str, Any]:
-    """
-    Fluxo usado para analisar um evento de segurança:
+    """Analyze one security event and expose stage-level timing metrics.
 
-    1. Aplica governança LGPD (sanitização de PII, avaliação dos 10 princípios Art. 6)
-    2. Calcula score de risco multifatorial com explicações XAI
-    3. Registra operação na trilha de auditoria (Art. 37)
-    4. Retorna evento sanitizado + decisão de governança + avaliação de risco
+    Metrics are measured with time.perf_counter() and are intended for the
+    controlled quantitative experiments described in the ACDSA revision plan.
     """
+    total_start = time.perf_counter()
     event_id = str(uuid.uuid4())
     raw = event.model_dump()
 
-    # ── 1. Tratamento LGPD ────────────────────────────────────────────────
-    sanitized, gov_decision = apply_lgpd_governance(
-        raw,
-        event_id=event_id,
-        legal_basis=LegalBasis.SECURITY_RESEARCH,
-        purpose="Auditoria de segurança cibernética — SIARC",
-    )
+    sanitizer_enabled = os.environ.get("SIARC_SANITIZER_ENABLED", "1").lower() not in {"0", "false", "no"}
 
-    # ── 2. Cálculo do score de risco ──
+    san_start = time.perf_counter()
+    if sanitizer_enabled:
+        sanitized, gov_decision = apply_lgpd_governance(
+            raw,
+            event_id=event_id,
+            legal_basis=LegalBasis.SECURITY_RESEARCH,
+            purpose="Auditoria de segurança cibernética - SIARC",
+        )
+    else:
+        # Baseline mode used only for privacy-overhead experiments.
+        sanitized = dict(raw)
+        _, gov_decision = apply_lgpd_governance(
+            {}, event_id=event_id, legal_basis=LegalBasis.SECURITY_RESEARCH,
+            purpose="Auditoria de segurança cibernética - SIARC (baseline sem sanitizacao)",
+        )
+    t_san_ms = (time.perf_counter() - san_start) * 1000.0
+
+    score_start = time.perf_counter()
     risk = calculate_risk(raw)
+    t_score_ms = (time.perf_counter() - score_start) * 1000.0
 
-    # ── 3. Resposta simulada ───────────────────────────────────────
     active_response = build_active_response(
         score=risk.score,
         risk_level=risk.level,
@@ -137,7 +157,7 @@ def analyze(event: SecurityEvent) -> Dict[str, Any]:
         event_id=event_id,
     )
 
-    # ── 4. Registro de auditoria ────────────────────────────────────────────
+    db_start = time.perf_counter()
     audit_trail.record(
         event_id=event_id,
         action="FULL_ANALYSIS_AND_ACTIVE_RESPONSE",
@@ -153,8 +173,20 @@ def analyze(event: SecurityEvent) -> Dict[str, Any]:
             "active_response_status": active_response["status"],
             "target_ip": raw.get("src_ip"),
             "compliance_status": gov_decision.compliance_status,
+            "sanitizer_enabled": sanitizer_enabled,
         },
     )
+    t_db_ms = (time.perf_counter() - db_start) * 1000.0
+    t_total_ms = (time.perf_counter() - total_start) * 1000.0
+
+    metrics = {
+        "t_san_ms": round(t_san_ms, 4),
+        "t_score_ms": round(t_score_ms, 4),
+        "t_db_ms": round(t_db_ms, 4),
+        "t_total_ms": round(t_total_ms, 4),
+        "sanitizer_enabled": sanitizer_enabled,
+    }
+    record_metric({"event_id": event_id, **metrics})
 
     return {
         "event_id": event_id,
@@ -165,6 +197,7 @@ def analyze(event: SecurityEvent) -> Dict[str, Any]:
         "sanitized_event": sanitized,
         "governance": gov_decision.to_dict(),
         "risk_assessment": risk.to_dict(),
+        "performance": metrics,
     }
 
 
@@ -374,6 +407,12 @@ def audit_entries(limit: int = Query(default=20, ge=1, le=100)) -> Dict[str, Any
 )
 def audit_summary() -> Dict[str, Any]:
     return audit_trail.get_summary()
+
+
+@router.get("/metrics/recent", summary="Recent stage-level performance measurements")
+def metrics_recent(limit: int = Query(default=100, ge=1, le=5000)) -> Dict[str, Any]:
+    data = recent_metrics(limit)
+    return {"count": len(data), "metrics": data}
 
 
 app.include_router(router)
