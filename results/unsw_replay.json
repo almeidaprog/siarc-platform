@@ -1,12 +1,12 @@
 {
   "dataset": "UNSW-NB15 training partition",
-  "rows": 1000,
-  "concurrency": 5,
-  "duration_s": 7.131,
-  "throughput_eps": 140.23,
-  "avg_latency_ms": 24.398,
-  "p95_latency_ms": 35.92,
-  "errors": 0,
-  "error_rate_pct": 0.0,
+  "rows": 1500,
+  "concurrency": 20,
+  "duration_s": 28.573,
+  "throughput_eps": 52.32,
+  "avg_latency_ms": 365.314,
+  "p95_latency_ms": 1514.028,
+  "errors": 5,
+  "error_rate_pct": 0.333,
   "evaluation_scope": "replay stability/throughput only; not detection accuracy"
 }

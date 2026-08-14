@@ -1,5 +1,5 @@
 concurrent_users,events,duration_s,throughput_eps,avg_latency_ms,p95_latency_ms,avg_t_san_ms,avg_t_score_ms,avg_t_db_ms,avg_t_total_ms,error_rate_pct,backend
-1,300,1.529,196.21,3.189,4.0,0.0942,0.029,0.8286,0.9983,0.0,SQLite local verification
-10,300,2.2655,132.42,55.052,79.952,0.1,0.0306,29.8396,30.3026,0.0,SQLite local verification
-25,300,4.1177,72.86,268.806,548.676,0.1262,0.0361,95.5229,97.2512,0.0,SQLite local verification
-50,300,2.6822,111.85,361.522,495.548,0.1094,0.0335,106.1806,107.1622,0.0,SQLite local verification
+1,300,15.3772,19.51,47.661,88.238,0.1202,0.0424,17.5928,17.8312,0.0,SQLite local verification
+10,300,13.9348,21.53,450.759,1555.408,0.1467,0.0532,248.6136,248.9735,0.0,SQLite local verification
+25,300,5.9106,50.76,450.866,1503.422,0.1517,0.0559,427.7715,428.2182,0.0,SQLite local verification
+50,300,6.1656,48.66,874.605,2326.755,0.1352,0.05,835.9305,836.353,0.0,SQLite local verification
