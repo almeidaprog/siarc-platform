@@ -224,7 +224,7 @@ def calculate_risk(event: Dict[str, Any]) -> RiskAssessment:
     factors.append(RiskFactor(
         name="origem_ip",
         contribution=ip_pts,
-        explanation=f"IP {src_ip or 'desconhecido'} classificado como '{ip_class}' → {ip_pts:.0f} pts",
+        explanation=f"Origem classificada como '{ip_class}' → {ip_pts:.0f} pts",
     ))
 
     # ── Fator 5: Anomalia temporal ───────────────────────────────────────

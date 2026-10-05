@@ -5,6 +5,11 @@ only to construct a representative SIARC event category/severity. The paper
 therefore reports replay stability and throughput, not detection precision/recall.
 """
 from __future__ import annotations
+import sys
+from pathlib import Path
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 import argparse, json, os, statistics, time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone

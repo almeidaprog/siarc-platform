@@ -8,6 +8,7 @@ base legal de tratamento e avaliação dos 10 princípios do Art. 6.
 import re
 import hashlib
 import uuid
+import ipaddress
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple
 from dataclasses import dataclass, field
@@ -125,7 +126,7 @@ _PATTERNS: Dict[str, Tuple[re.Pattern, DataCategory, MaskingStrategy, str]] = {
     ),
     "phone_br": (
         re.compile(
-            r"\b(?:\+55\s?)?(?:\(?\d{2}\)?\s?)(?:9\s?)?\d{4}[-\s]?\d{4}\b"
+            r"(?<!\d)(?:\+55\s*)?(?:\(\d{2}\)|\d{2})\s*(?:9\s*)?\d{4}[-\s]?\d{4}(?!\d)"
         ),
         DataCategory.PERSONAL,
         MaskingStrategy.PARTIAL,
@@ -204,20 +205,96 @@ def _apply_strategy(value: str, strategy: MaskingStrategy, pattern_name: str) ->
 # Detecção e mascaramento em texto livre
 # ---------------------------------------------------------------------------
 
+def _digits(value: str) -> str:
+    return re.sub(r"\D", "", value)
+
+
+def _valid_cpf(value: str) -> bool:
+    digits = _digits(value)
+    if len(digits) != 11 or digits == digits[0] * 11:
+        return False
+    nums = [int(x) for x in digits]
+    for pos in (9, 10):
+        weight = pos + 1
+        total = sum(nums[i] * (weight - i) for i in range(pos))
+        check = (total * 10 % 11) % 10
+        if nums[pos] != check:
+            return False
+    return True
+
+
+def _valid_cnpj(value: str) -> bool:
+    digits = _digits(value)
+    if len(digits) != 14 or digits == digits[0] * 14:
+        return False
+    nums = [int(x) for x in digits]
+    for pos, weights in (
+        (12, [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]),
+        (13, [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]),
+    ):
+        total = sum(nums[i] * weights[i] for i in range(pos))
+        rem = total % 11
+        check = 0 if rem < 2 else 11 - rem
+        if nums[pos] != check:
+            return False
+    return True
+
+
+def _valid_private_ip(value: str) -> bool:
+    try:
+        return ipaddress.ip_address(value).is_private
+    except ValueError:
+        return False
+
+
+def _valid_phone_br(value: str) -> bool:
+    digits = _digits(value)
+    if digits.startswith("55") and len(digits) in {12, 13}:
+        digits = digits[2:]
+    if len(digits) not in {10, 11}:
+        return False
+    # Avoid classifying arbitrary long numeric IDs as phones: require common
+    # telephone formatting (+, parentheses, whitespace or hyphen).
+    if not any(ch in value for ch in "+()- "):
+        return False
+    ddd = int(digits[:2])
+    return 11 <= ddd <= 99
+
+
+def _match_is_valid(pattern_name: str, value: str) -> bool:
+    if pattern_name == "cpf":
+        return _valid_cpf(value)
+    if pattern_name == "cnpj":
+        return _valid_cnpj(value)
+    if pattern_name == "ip_private":
+        return _valid_private_ip(value)
+    if pattern_name == "phone_br":
+        return _valid_phone_br(value)
+    return True
+
+
 def detect_and_mask_text(
     text: str, field_name: str = ""
 ) -> Tuple[str, List[PIIDetection]]:
-    """Varre um texto livre, detecta PII por regex e aplica mascaramento."""
+    """Detecta e mascara PII preservando contagem de ocorrências.
+
+    CPF e CNPJ passam por validação de dígitos verificadores e IPs privados
+    passam pela validação da biblioteca ``ipaddress``. Isso reduz falsos
+    positivos em sequências numéricas com formato semelhante a identificadores.
+    """
     detections: List[PIIDetection] = []
     result = text
 
     for pattern_name, (pattern, category, strategy, article) in _PATTERNS.items():
-        for match in set(pattern.findall(result)):
-            masked = _apply_strategy(match, strategy, pattern_name)
+        def repl(match: re.Match) -> str:
+            value = match.group(0)
+            if not _match_is_valid(pattern_name, value):
+                return value
+            masked = _apply_strategy(value, strategy, pattern_name)
             detections.append(
                 PIIDetection(
                     field_name=field_name,
-                    original_value=match,
+                    original_value=value,
                     masked_value=masked,
                     category=category,
                     strategy=strategy,
@@ -225,7 +302,9 @@ def detect_and_mask_text(
                     lgpd_article=article,
                 )
             )
-            result = result.replace(match, masked)
+            return masked
+
+        result = pattern.sub(repl, result)
 
     return result, detections
 
@@ -268,11 +347,19 @@ def sanitize_field(key: str, value: Any) -> Tuple[Any, List[PIIDetection]]:
         masked_list = []
         for item in value:
             if isinstance(item, str):
-                masked_item, item_detections = detect_and_mask_text(item)
-                detections.extend(item_detections)
-                masked_list.append(masked_item)
+                masked_item, item_detections = detect_and_mask_text(item, key)
+            elif isinstance(item, dict):
+                masked_item = {}
+                item_detections = []
+                for sub_key, sub_value in item.items():
+                    masked_item[sub_key], sub = sanitize_field(sub_key, sub_value)
+                    item_detections.extend(sub)
+            elif isinstance(item, list):
+                masked_item, item_detections = sanitize_field(key, item)
             else:
-                masked_list.append(item)
+                masked_item, item_detections = item, []
+            detections.extend(item_detections)
+            masked_list.append(masked_item)
         return masked_list, detections
 
     return value, detections

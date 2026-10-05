@@ -11,7 +11,7 @@ O SIARC é uma plataforma de pesquisa aplicada em segurança cibernética que co
 - **Governança de dados (LGPD)** — sanitização e controle de dados pessoais em logs de segurança
 - **Motor de risco com XAI** — score 0–100 com explicações auditáveis por fator
 - **Orquestração via n8n** — workflows de ingestão e roteamento de eventos
-- **Trilha de auditoria** — registro imutável de todas as operações (LGPD Art. 37)
+- **Trilha de auditoria** — registro persistente e rastreável das operações em SQL (LGPD Art. 37)
 - **API REST** — integração com qualquer SIEM ou sistema de monitoramento
 
 O projeto segue um cronograma de sprints mensais, evoluindo de um sandbox de governança (Abril/2026) até um sistema de detecção e resposta ativa com ML (fases futuras).
@@ -262,7 +262,7 @@ O SIARC foi projetado com LGPD-by-design:
 - **Art. 5, I** — Dados pessoais identificados e mascarados antes do armazenamento
 - **Art. 6** — Todos os 10 princípios avaliados por evento processado
 - **Art. 7** — Base legal explícita para cada operação de tratamento
-- **Art. 37** — Trilha de auditoria imutável em `data/audit_log.jsonl`
+- **Art. 37** — Registro das operações em `audit_entries` no banco configurado; o protótipo não reivindica imutabilidade criptográfica
 
 Dados pessoais suportados: email, CPF, CNPJ, RG, telefone, IP privado (identificação indireta).
 
@@ -306,3 +306,41 @@ The portable benchmark included in `results/` is a reproducibility check execute
 ### UNSW-NB15
 
 The replay script expects `data/UNSW_NB15_training-set.csv`. Obtain it from the official UNSW-NB15 project page and cite the dataset authors. The adapter uses labels only to build representative SIARC events for replay/stability testing; it is not an accuracy evaluation and must not be used to claim precision, recall or F1-score.
+
+
+## Revisão experimental orientada à JISA (setembro/2026)
+
+A nova rodada de avaliação foi preparada para responder às críticas de robustez científica recebidas após a versão quantitativa anterior. O pacote agora inclui:
+
+- validação rotulada da **eficácia da sanitização** (precision/recall/F1 + leakage);
+- validação de **consistência do score** e experimento externo cego com UNSW-NB15;
+- matriz Locust em **1, 5, 10, 25, 50, 100, 150 e 200 usuários**, com três repetições;
+- média, desvio-padrão e intervalo de confiança de 95%;
+- confirmação do backend **PostgreSQL** pela própria API e contagem de auditoria;
+- registro detalhado de cada erro no replay UNSW-NB15;
+- coleta automática de hardware, SO, Docker, Compose e versão do código;
+- teste automatizado para impedir persistência de IP privado bruto na auditoria;
+- documentação explícita do fluxo de dados pessoais e da fronteira de confiança.
+
+Para executar a bateria final no Windows, consulte `docs/jisa/INSTRUCOES_TESTES_COLEGA.md` ou execute `RUN_JISA_TESTS_WINDOWS.bat`.
+
+---
+
+## Dashboard de Governança — Refinamento de Setembro/2026
+
+A versão 0.5.0 inclui um dashboard operacional próprio do SIARC.
+
+**Acesso:** http://localhost:8080/dashboard
+
+O painel reúne:
+
+- saúde da API e diagnóstico do PostgreSQL;
+- volume e resumo da trilha de auditoria;
+- taxa operacional de sucesso/conformidade registrada;
+- latências recentes de sanitização, scoring, persistência e processamento total;
+- distribuição das operações de auditoria;
+- tabela de eventos recentes;
+- formulário para executar um evento e visualizar o Cyber Security Score, explicações e resposta simulada;
+- snapshot da validação experimental de setembro/2026 (PII, score, matriz de carga e n8n E2E).
+
+Os endpoints de dados continuam protegidos por `X-API-Key`. No dashboard, informe a chave definida em `SIARC_API_KEY` (no ambiente de desenvolvimento, o `.env.example` usa `siarc-benchmark-key`). A chave é armazenada somente no `localStorage` do navegador.

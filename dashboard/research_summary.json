@@ -1,0 +1,37 @@
+{
+  "experiment_date": "2026-09-02",
+  "pii": {
+    "cases": 125,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "raw_leakage_rate": 0.0
+  },
+  "score_policy": {
+    "cases": 48,
+    "conformance": 1.0,
+    "monotonicity_passed": true
+  },
+  "postgres": {
+    "version": "16.14",
+    "verification_events": 20,
+    "successful_events": 20,
+    "audit_delta": 20,
+    "confirmed": true
+  },
+  "load": {
+    "concurrency_levels": [1, 5, 10, 25, 50, 100, 150, 200],
+    "repeats_per_level": 3,
+    "total_requests": 43369,
+    "http_failures": 0,
+    "peak_rps": 65.10,
+    "peak_rps_users": 100,
+    "rps_at_200_users": 52.31
+  },
+  "n8n_e2e": {
+    "requests": 350,
+    "failures": 0,
+    "average_response_ms": 1947.33
+  },
+  "scope_note": "Experimental snapshot from the September 2026 JISA validation campaign. PII metrics apply only to the supported synthetic labeled corpus; score results measure policy conformance, not external IDS accuracy."
+}

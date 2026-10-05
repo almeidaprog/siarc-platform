@@ -1,0 +1,89 @@
+{
+  "runs": [
+    {
+      "sanitizer_enabled": 0,
+      "repeat": 1,
+      "run_id": "privacy-0-r1-12051b",
+      "users": 25,
+      "requests_per_s": 76.49219218153677,
+      "avg_response_ms": 291.9497569487729,
+      "p95_response_ms": 430.0,
+      "failures": 0,
+      "avg_internal_ms": 68.83715253633936,
+      "avg_sanitizer_ms": 0.27322966478789673,
+      "stage_metric_count": 3371
+    },
+    {
+      "sanitizer_enabled": 0,
+      "repeat": 2,
+      "run_id": "privacy-0-r2-46a14a",
+      "users": 25,
+      "requests_per_s": 81.2211916389782,
+      "avg_response_ms": 273.47403565135824,
+      "p95_response_ms": 360.0,
+      "failures": 0,
+      "avg_internal_ms": 25.504230788732393,
+      "avg_sanitizer_ms": 0.26564554929577466,
+      "stage_metric_count": 3550
+    },
+    {
+      "sanitizer_enabled": 0,
+      "repeat": 3,
+      "run_id": "privacy-0-r3-73e9e7",
+      "users": 25,
+      "requests_per_s": 81.46872778607816,
+      "avg_response_ms": 272.5348913102535,
+      "p95_response_ms": 360.0,
+      "failures": 0,
+      "avg_internal_ms": 24.45118946064942,
+      "avg_sanitizer_ms": 0.28435027517886624,
+      "stage_metric_count": 3634
+    },
+    {
+      "sanitizer_enabled": 1,
+      "repeat": 1,
+      "run_id": "privacy-1-r1-11cc96",
+      "users": 25,
+      "requests_per_s": 53.465200944438145,
+      "avg_response_ms": 431.05508727769654,
+      "p95_response_ms": 910.0,
+      "failures": 0,
+      "avg_internal_ms": 198.37444542797496,
+      "avg_sanitizer_ms": 0.30675949895615867,
+      "stage_metric_count": 2395
+    },
+    {
+      "sanitizer_enabled": 1,
+      "repeat": 2,
+      "run_id": "privacy-1-r2-9c42a9",
+      "users": 25,
+      "requests_per_s": 46.80005530724133,
+      "avg_response_ms": 499.1429712690479,
+      "p95_response_ms": 1400.0,
+      "failures": 0,
+      "avg_internal_ms": 277.83737137367916,
+      "avg_sanitizer_ms": 0.25450874159462056,
+      "stage_metric_count": 2082
+    },
+    {
+      "sanitizer_enabled": 1,
+      "repeat": 3,
+      "run_id": "privacy-1-r3-a3faa7",
+      "users": 25,
+      "requests_per_s": 47.8047188089267,
+      "avg_response_ms": 488.0736446436444,
+      "p95_response_ms": 1500.0,
+      "failures": 0,
+      "avg_internal_ms": 97.94036864564006,
+      "avg_sanitizer_ms": 0.23853232838589983,
+      "stage_metric_count": 2156
+    }
+  ],
+  "summary": {
+    "users": 25,
+    "repeats_per_mode": 3,
+    "baseline_internal_ms": 39.59752426190706,
+    "sanitizer_internal_ms": 191.38406181576474,
+    "overhead_pct": 383.3233021082502
+  }
+}

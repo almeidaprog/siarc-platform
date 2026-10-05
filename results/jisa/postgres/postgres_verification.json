@@ -1,0 +1,106 @@
+{
+  "run_id": "postgres-proof-2e45f323",
+  "before": {
+    "backend": "postgresql+psycopg",
+    "database_driver": "psycopg",
+    "database_version": "16.14 (Debian 16.14-1.pgdg12+1)",
+    "audit_entries": 4531546,
+    "pool_class": "QueuePool",
+    "pool_status": "Pool size: 10  Connections in pool: 1 Current Overflow: -9 Current Checked out connections: 0"
+  },
+  "after": {
+    "backend": "postgresql+psycopg",
+    "database_driver": "psycopg",
+    "database_version": "16.14 (Debian 16.14-1.pgdg12+1)",
+    "audit_entries": 4531566,
+    "pool_class": "QueuePool",
+    "pool_status": "Pool size: 10  Connections in pool: 1 Current Overflow: -9 Current Checked out connections: 0"
+  },
+  "requested_events": 20,
+  "successful_events": 20,
+  "failures": [],
+  "audit_count_delta": 20,
+  "db_timings": [
+    {
+      "wall_ms": 150.6449000153225,
+      "t_db_ms": 105.6011
+    },
+    {
+      "wall_ms": 240.599500015378,
+      "t_db_ms": 229.9672
+    },
+    {
+      "wall_ms": 154.29259999655187,
+      "t_db_ms": 104.5427
+    },
+    {
+      "wall_ms": 127.72190000396222,
+      "t_db_ms": 101.062
+    },
+    {
+      "wall_ms": 337.6276000053622,
+      "t_db_ms": 325.346
+    },
+    {
+      "wall_ms": 124.22839997452684,
+      "t_db_ms": 93.9398
+    },
+    {
+      "wall_ms": 111.56879999907687,
+      "t_db_ms": 92.8168
+    },
+    {
+      "wall_ms": 152.19470000010915,
+      "t_db_ms": 109.8573
+    },
+    {
+      "wall_ms": 113.85339999105781,
+      "t_db_ms": 98.8525
+    },
+    {
+      "wall_ms": 131.61489999038167,
+      "t_db_ms": 95.8197
+    },
+    {
+      "wall_ms": 178.33759999484755,
+      "t_db_ms": 161.447
+    },
+    {
+      "wall_ms": 404.61169998161495,
+      "t_db_ms": 403.2584
+    },
+    {
+      "wall_ms": 1064.703100011684,
+      "t_db_ms": 1114.3876
+    },
+    {
+      "wall_ms": 559.5022999914363,
+      "t_db_ms": 582.022
+    },
+    {
+      "wall_ms": 301.8424000183586,
+      "t_db_ms": 299.9025
+    },
+    {
+      "wall_ms": 112.16039999271743,
+      "t_db_ms": 86.2294
+    },
+    {
+      "wall_ms": 129.26089999382384,
+      "t_db_ms": 92.2621
+    },
+    {
+      "wall_ms": 251.944799994817,
+      "t_db_ms": 244.776
+    },
+    {
+      "wall_ms": 180.23399999947287,
+      "t_db_ms": 164.6382
+    },
+    {
+      "wall_ms": 115.42990000452846,
+      "t_db_ms": 96.3571
+    }
+  ],
+  "postgres_confirmed": true
+}

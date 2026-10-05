@@ -1,0 +1,16 @@
+SIARC - PACOTE DE TESTES DA NOVA REVISAO
+
+Para o colega que vai rodar os experimentos:
+
+1) Abra esta pasta no Windows.
+2) Garanta que o Docker Desktop esteja aberto.
+3) Execute: RUN_JISA_TESTS_WINDOWS.bat
+4) Aguarde a bateria completa (aprox. 30-45 min).
+5) No final, abra a pasta results e envie o arquivo SIARC_JISA_RESULTS_*.zip.
+
+Se der erro, tire um print do terminal e envie junto.
+
+IMPORTANTE:
+- Nao altere os CSV/JSON gerados.
+- Nao use os resultados antigos da pasta results/previous_acdsa como resultados novos.
+- Os datasets UNSW-NB15 precisam estar em data/ com os nomes indicados em docs/jisa/INSTRUCOES_TESTES_COLEGA.md.

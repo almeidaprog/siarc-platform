@@ -1,0 +1,21 @@
+Fala, essa é a nova versão do SIARC preparada para a revisão do artigo.
+
+Pra rodar os testes finais:
+1. abre o Docker Desktop;
+2. extrai o ZIP;
+3. entra na pasta do projeto;
+4. executa RUN_JISA_TESTS_WINDOWS.bat;
+5. espera terminar (uns 30-45 min);
+6. me manda o arquivo SIARC_JISA_RESULTS_*.zip que vai aparecer dentro de results.
+
+Além do ZIP, me manda também estes prints:
+- [] print do "docker compose ps" (com API/PostgreSQL/n8n rodando);
+- [] print do Locust rodando;
+- [] print do n8n aberto (http://localhost:5678);
+- [] print do terminal no final dos testes (a tela de "CONCLUIDO").
+
+Se der erro, manda também um print do terminal no ponto da falha.
+
+Se tiver os CSVs do UNSW-NB15, coloca antes em data/ com estes nomes:
+UNSW_NB15_training-set.csv
+UNSW_NB15_testing-set.csv

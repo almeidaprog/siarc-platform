@@ -1,0 +1,79 @@
+{
+  "evaluation": "PII sanitization effectiveness",
+  "corpus": {
+    "name": "SIARC synthetic PII effectiveness corpus",
+    "seed": 20260901,
+    "real_personal_data": false,
+    "cases": 125
+  },
+  "overall": {
+    "tp": 115,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "negative_case_false_positive_rate": 0.0,
+    "raw_pii_leakage_event_rate": 0.0
+  },
+  "by_type": {
+    "cnpj": {
+      "tp": 10,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "cpf": {
+      "tp": 15,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "email": {
+      "tp": 30,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "ip_private": {
+      "tp": 25,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "nome_de_campo_sensivel": {
+      "tp": 10,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "phone_br": {
+      "tp": 15,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "rg": {
+      "tp": 10,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "failed_cases": 0,
+  "scope_note": "Synthetic labeled corpus validates supported PII patterns and masking leakage; it is not a population-wide privacy guarantee."
+}

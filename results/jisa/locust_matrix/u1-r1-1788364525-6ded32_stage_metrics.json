@@ -1,0 +1,76 @@
+{
+  "run_id": "u1-r1-1788364525-6ded32",
+  "metrics": [
+    {
+      "event_id": "60c5244a-3ecd-439e-a95e-066d1e96b84f",
+      "run_id": "u1-r1-1788364525-6ded32",
+      "t_san_ms": 0.2733,
+      "t_score_ms": 0.1361,
+      "t_db_ms": 6583.3487,
+      "t_total_ms": 6583.9329,
+      "sanitizer_enabled": true,
+      "recorded_at": "2026-09-02T15:55:33.610565+00:00"
+    },
+    {
+      "event_id": "a52bf392-6703-427e-bc68-cc65e753fdc1",
+      "run_id": "u1-r1-1788364525-6ded32",
+      "t_san_ms": 0.1935,
+      "t_score_ms": 0.0393,
+      "t_db_ms": 6992.3371,
+      "t_total_ms": 6992.6558,
+      "sanitizer_enabled": true,
+      "recorded_at": "2026-09-02T15:55:38.144116+00:00"
+    },
+    {
+      "event_id": "dbd02fe3-99e1-4456-91a8-d8155bca3ebd",
+      "run_id": "u1-r1-1788364525-6ded32",
+      "t_san_ms": 0.1965,
+      "t_score_ms": 0.0393,
+      "t_db_ms": 5375.347,
+      "t_total_ms": 5375.6743,
+      "sanitizer_enabled": true,
+      "recorded_at": "2026-09-02T15:55:43.585283+00:00"
+    },
+    {
+      "event_id": "56e8301c-f4ce-4247-9411-a253b683225e",
+      "run_id": "u1-r1-1788364525-6ded32",
+      "t_san_ms": 0.1808,
+      "t_score_ms": 0.0459,
+      "t_db_ms": 13418.6075,
+      "t_total_ms": 13418.914,
+      "sanitizer_enabled": true,
+      "recorded_at": "2026-09-02T15:55:57.065162+00:00"
+    },
+    {
+      "event_id": "71acbc7a-b69e-46c0-96ad-2e5ac5f1abd0",
+      "run_id": "u1-r1-1788364525-6ded32",
+      "t_san_ms": 0.2155,
+      "t_score_ms": 0.0525,
+      "t_db_ms": 2770.3686,
+      "t_total_ms": 2770.7512,
+      "sanitizer_enabled": true,
+      "recorded_at": "2026-09-02T15:55:59.892198+00:00"
+    },
+    {
+      "event_id": "19cf4941-1518-43d2-a6c9-b763c92313e6",
+      "run_id": "u1-r1-1788364525-6ded32",
+      "t_san_ms": 0.2119,
+      "t_score_ms": 0.0404,
+      "t_db_ms": 5238.198,
+      "t_total_ms": 5238.539,
+      "sanitizer_enabled": true,
+      "recorded_at": "2026-09-02T15:56:05.191907+00:00"
+    },
+    {
+      "event_id": "a04c986a-139e-49e6-8cda-43a7816090d9",
+      "run_id": "u1-r1-1788364525-6ded32",
+      "t_san_ms": 0.2741,
+      "t_score_ms": 0.044,
+      "t_db_ms": 4029.9854,
+      "t_total_ms": 4030.4026,
+      "sanitizer_enabled": true,
+      "recorded_at": "2026-09-02T15:56:06.806846+00:00"
+    }
+  ],
+  "retrieval_error": null
+}

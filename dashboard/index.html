@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SIARC Dashboard — Governança e Risco</title>
+<style>
+:root{--bg:#07111f;--panel:#0d1b2d;--panel2:#10223a;--line:#203956;--text:#edf5ff;--muted:#91a8c3;--cyan:#45d7ff;--green:#43e59f;--yellow:#ffd166;--red:#ff667a;--violet:#ad8cff;--shadow:0 16px 45px rgba(0,0,0,.28)}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 15% 0,#0f2942 0,transparent 32%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+a{color:var(--cyan);text-decoration:none}.shell{max-width:1500px;margin:auto;padding:24px}.top{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:20px}.brand h1{font-size:26px;margin:0 0 5px}.brand p{margin:0;color:var(--muted)}.badge{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);background:rgba(13,27,45,.78);padding:8px 11px;border-radius:999px;color:var(--muted);font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:var(--yellow);box-shadow:0 0 16px currentColor}.toolbar{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}.btn,.input,.select,.textarea{border:1px solid var(--line);background:#0a1728;color:var(--text);border-radius:10px;padding:10px 12px;font:inherit}.btn{cursor:pointer;font-weight:700}.btn:hover{border-color:#3b668f}.btn.primary{background:linear-gradient(135deg,#147ba2,#1558a0);border-color:#399dd1}.input{width:220px}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}.card{background:linear-gradient(180deg,rgba(16,34,58,.96),rgba(10,24,41,.96));border:1px solid var(--line);border-radius:16px;padding:17px;box-shadow:var(--shadow);min-width:0}.kpi{grid-column:span 3}.kpi .label{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}.kpi .value{font-size:29px;font-weight:800;margin-top:7px;line-height:1.05}.kpi .sub{font-size:12px;color:var(--muted);margin-top:7px}.wide{grid-column:span 8}.side{grid-column:span 4}.half{grid-column:span 6}.full{grid-column:1/-1}.card h2{font-size:16px;margin:0 0 14px}.card h3{font-size:13px;color:var(--muted);margin:18px 0 9px;text-transform:uppercase;letter-spacing:.06em}.status-ok{color:var(--green)}.status-bad{color:var(--red)}.status-warn{color:var(--yellow)}.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.metric{padding:12px;border:1px solid var(--line);border-radius:12px;background:#0a1728}.metric b{display:block;font-size:20px;margin-top:4px}.metric span{font-size:11px;color:var(--muted)}.bars{display:grid;gap:9px}.bar-row{display:grid;grid-template-columns:115px 1fr 58px;gap:9px;align-items:center;font-size:12px}.track{height:9px;background:#07111f;border:1px solid #1b334e;border-radius:999px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--violet));border-radius:999px}.chart{height:210px;display:flex;align-items:flex-end;gap:8px;padding:14px 8px 4px;border-left:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:8px}.col{flex:1;min-width:26px;display:flex;gap:3px;align-items:flex-end;height:100%;position:relative}.col i{display:block;flex:1;min-width:5px;border-radius:5px 5px 0 0}.col .a{background:var(--green)}.col .b{background:var(--cyan)}.col .c{background:var(--violet)}.col .d{background:var(--yellow)}.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-top:10px}.legend em{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px}.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;font-size:12px}.table th,.table td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.table th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em}.risk-wrap{display:flex;gap:18px;align-items:center}.gauge{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--green) 0deg,#18304b 0deg);position:relative;flex:0 0 auto}.gauge:after{content:"";position:absolute;inset:14px;border-radius:50%;background:#0a1728}.gauge .inside{z-index:1;text-align:center}.gauge .score{font-size:38px;font-weight:900}.gauge small{display:block;color:var(--muted)}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.form-grid .textarea{grid-column:1/-1;min-height:88px;resize:vertical}.result-box{border:1px solid var(--line);border-radius:12px;background:#081525;padding:12px;max-height:250px;overflow:auto;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;white-space:pre-wrap}.validation{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.vbox{border:1px solid var(--line);border-radius:12px;padding:12px;background:#0a1728}.vbox b{display:block;font-size:20px}.vbox span{font-size:11px;color:var(--muted)}.note{font-size:11px;color:var(--muted);line-height:1.5}.footer{text-align:center;color:var(--muted);font-size:11px;padding:22px 0 4px}
+@media(max-width:1100px){.kpi{grid-column:span 6}.wide,.side,.half{grid-column:1/-1}.validation{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.shell{padding:14px}.top{flex-direction:column}.toolbar{justify-content:flex-start}.input{width:100%}.kpi{grid-column:1/-1}.metric-grid,.validation,.form-grid{grid-template-columns:1fr}.risk-wrap{align-items:flex-start;flex-direction:column}.form-grid .textarea{grid-column:auto}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="brand"><h1>SIARC — Dashboard de Governança e Risco</h1><p>Visão operacional do pipeline LGPD, score explicável, auditoria PostgreSQL e desempenho.</p></div>
+    <div class="toolbar">
+      <span class="badge"><span id="healthDot" class="dot"></span><span id="healthText">verificando API...</span></span>
+      <input id="apiKey" class="input" type="password" placeholder="X-API-Key" autocomplete="off" />
+      <button class="btn" onclick="saveKey()">Salvar chave</button>
+      <button class="btn primary" onclick="refreshAll()">Atualizar</button>
+      <a class="btn" href="/docs" target="_blank">API Docs</a>
+      <a class="btn" href="http://localhost:5678" target="_blank">n8n</a>
+    </div>
+  </div>
+
+  <div class="grid">
+    <section class="card kpi"><div class="label">API</div><div id="apiStatus" class="value">—</div><div id="apiVersion" class="sub">FastAPI</div></section>
+    <section class="card kpi"><div class="label">Banco de auditoria</div><div id="dbStatus" class="value">—</div><div id="dbVersion" class="sub">aguardando chave</div></section>
+    <section class="card kpi"><div class="label">Registros de auditoria</div><div id="auditTotal" class="value">—</div><div id="auditRange" class="sub">Art. 37 / LGPD</div></section>
+    <section class="card kpi"><div class="label">Conformidade operacional</div><div id="compliance" class="value">—</div><div class="sub">sucessos registrados / total</div></section>
+
+    <section class="card wide">
+      <h2>Desempenho recente do pipeline</h2>
+      <div class="metric-grid">
+        <div class="metric"><span>Sanitização média</span><b id="mSan">—</b></div>
+        <div class="metric"><span>Scoring médio</span><b id="mScore">—</b></div>
+        <div class="metric"><span>PostgreSQL médio</span><b id="mDb">—</b></div>
+        <div class="metric"><span>Total interno médio</span><b id="mTotal">—</b></div>
+      </div>
+      <div id="perfChart" class="chart"></div>
+      <div class="legend"><span><em style="background:var(--green)"></em>LGPD</span><span><em style="background:var(--cyan)"></em>Score</span><span><em style="background:var(--violet)"></em>DB</span><span><em style="background:var(--yellow)"></em>Total</span></div>
+    </section>
+
+    <section class="card side">
+      <h2>Distribuição das operações</h2>
+      <div id="actionBars" class="bars"><div class="note">Aguardando dados...</div></div>
+      <h3>Banco</h3><div id="dbDetail" class="note">—</div>
+    </section>
+
+    <section class="card half">
+      <h2>Analisar evento no Dashboard</h2>
+      <div class="form-grid">
+        <select id="severity" class="select"><option>low</option><option>medium</option><option selected>high</option><option>critical</option></select>
+        <input id="eventType" class="input" style="width:100%" value="credential_abuse" placeholder="event_type" />
+        <input id="srcIp" class="input" style="width:100%" value="10.0.0.55" placeholder="src_ip" />
+        <input id="dstIp" class="input" style="width:100%" value="10.0.0.1" placeholder="dst_ip" />
+        <textarea id="payload" class="textarea">brute force SSH; contato usuario.teste@empresa.com.br; 500 tentativas em 1 minuto</textarea>
+      </div>
+      <button class="btn primary" style="margin-top:10px" onclick="analyzeDemo()">Executar análise</button>
+      <p class="note">O evento usa a mesma rota <code>/analyze</code> do experimento. O dashboard não grava a chave fora do navegador.</p>
+    </section>
+
+    <section class="card half">
+      <h2>Cyber Security Score</h2>
+      <div class="risk-wrap">
+        <div id="gauge" class="gauge"><div class="inside"><div id="riskScore" class="score">—</div><small id="riskLevel">sem análise</small></div></div>
+        <div style="min-width:0"><div id="riskAction" style="font-weight:800;margin-bottom:8px">Execute um evento para visualizar a decisão.</div><div id="riskExplanation" class="note"></div></div>
+      </div>
+      <h3>Resultado sanitizado e métricas</h3>
+      <div id="analyzeResult" class="result-box">Nenhuma análise executada nesta sessão.</div>
+    </section>
+
+    <section class="card full">
+      <h2>Validação experimental — campanha JISA / setembro 2026</h2>
+      <div class="validation">
+        <div class="vbox"><span>PII sanitization F1</span><b id="vPii">—</b><span id="vPiiSub"></span></div>
+        <div class="vbox"><span>Conformidade do score</span><b id="vScore">—</b><span id="vScoreSub"></span></div>
+        <div class="vbox"><span>Matriz de carga</span><b id="vLoad">—</b><span id="vLoadSub"></span></div>
+        <div class="vbox"><span>n8n ponta a ponta</span><b id="vN8n">—</b><span id="vN8nSub"></span></div>
+      </div>
+      <p id="researchNote" class="note"></p>
+    </section>
+
+    <section class="card full">
+      <h2>Auditoria recente</h2>
+      <div class="table-wrap"><table class="table"><thead><tr><th>Horário</th><th>Evento</th><th>Ação</th><th>Resultado</th><th>Score / nível</th><th>PII</th></tr></thead><tbody id="auditRows"><tr><td colspan="6" class="note">Aguardando dados...</td></tr></tbody></table></div>
+    </section>
+  </div>
+  <div class="footer">SIARC v0.5.0 · Dashboard de governança · ambiente experimental / sandbox</div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const key=()=>$("apiKey").value.trim();
+function authHeaders(extra={}){return {...extra,...(key()?{"X-API-Key":key()}:{})}}
+function saveKey(){localStorage.setItem("siarcApiKey",key()); refreshAll()}
+function fmt(v,d=2){return Number.isFinite(Number(v))?Number(v).toFixed(d):"—"}
+async function getJSON(url,auth=true){const r=await fetch(url,{headers:auth?authHeaders():{}});if(!r.ok)throw new Error(`${r.status} ${await r.text()}`);return r.json()}
+async function health(){try{const d=await getJSON('/health',false);$('healthDot').style.background='var(--green)';$('healthText').textContent='API online';$('apiStatus').textContent='ONLINE';$('apiStatus').className='value status-ok';$('apiVersion').textContent=`SIARC API v${d.version||'—'}`}catch(e){$('healthDot').style.background='var(--red)';$('healthText').textContent='API indisponível';$('apiStatus').textContent='OFFLINE';$('apiStatus').className='value status-bad'}}
+function renderPerf(metrics){if(!metrics.length){['mSan','mScore','mDb','mTotal'].forEach(x=>$(x).textContent='—');$('perfChart').innerHTML='<div class="note">Sem métricas recentes.</div>';return}const recent=metrics.slice(-30);const avg=k=>recent.reduce((s,x)=>s+Number(x[k]||0),0)/recent.length;$('mSan').textContent=fmt(avg('t_san_ms'),3)+' ms';$('mScore').textContent=fmt(avg('t_score_ms'),3)+' ms';$('mDb').textContent=fmt(avg('t_db_ms'),2)+' ms';$('mTotal').textContent=fmt(avg('t_total_ms'),2)+' ms';const max=Math.max(...recent.flatMap(x=>['t_san_ms','t_score_ms','t_db_ms','t_total_ms'].map(k=>Number(x[k]||0))),1);$('perfChart').innerHTML=recent.slice(-16).map(x=>`<div class="col" title="${x.event_id||''}"><i class="a" style="height:${Math.max(2,Number(x.t_san_ms||0)/max*100)}%"></i><i class="b" style="height:${Math.max(2,Number(x.t_score_ms||0)/max*100)}%"></i><i class="c" style="height:${Math.max(2,Number(x.t_db_ms||0)/max*100)}%"></i><i class="d" style="height:${Math.max(2,Number(x.t_total_ms||0)/max*100)}%"></i></div>`).join('')}
+function renderActions(obj){const entries=Object.entries(obj||{}).sort((a,b)=>b[1]-a[1]);const max=Math.max(...entries.map(x=>x[1]),1);$('actionBars').innerHTML=entries.length?entries.slice(0,7).map(([n,v])=>`<div class="bar-row"><span>${n.replaceAll('_',' ')}</span><div class="track"><div class="fill" style="width:${v/max*100}%"></div></div><b>${v}</b></div>`).join(''):'<div class="note">Sem operações registradas.</div>'}
+function renderAudit(entries){$('auditRows').innerHTML=(entries||[]).map(e=>{const d=e.details||{};return `<tr><td>${(e.audit_timestamp||'').replace('T',' ').slice(0,19)}</td><td><code>${(e.event_id||'').slice(0,12)}</code></td><td>${e.action||''}</td><td class="${e.outcome==='SUCCESS'?'status-ok':'status-bad'}">${e.outcome||''}</td><td>${d.risk_score??d.exploit_score??'—'} / ${d.risk_level??d.verdict??'—'}</td><td>${d.pii_count??'—'}</td></tr>`}).join('')||'<tr><td colspan="6">Sem entradas.</td></tr>'}
+async function protectedData(){if(!key()){return}try{const [db,audit,gov,perf,entries]=await Promise.all([getJSON('/diagnostics/database'),getJSON('/audit/summary'),getJSON('/governance/report'),getJSON('/metrics/recent?limit=120'),getJSON('/audit/entries?limit=10')]);$('dbStatus').textContent=(db.backend||'').toUpperCase().replace('+PSYCOPG','');$('dbStatus').className='value status-ok';$('dbVersion').textContent=`${db.database_driver} · PostgreSQL ${db.database_version||''}`;$('dbDetail').textContent=`${db.pool_class} · ${db.pool_status}`;$('auditTotal').textContent=Number(audit.total_entries||0).toLocaleString('pt-BR');$('auditRange').textContent=audit.last_entry?`último: ${audit.last_entry.replace('T',' ').slice(0,19)}`:'sem registros';$('compliance').textContent=fmt(gov.compliance_rate_pct,1)+'%';$('compliance').className='value '+(gov.compliance_rate_pct>=99?'status-ok':'status-warn');renderPerf(perf.metrics||[]);renderActions(audit.by_action||{});renderAudit(entries.entries||[])}catch(e){$('dbStatus').textContent='CHAVE?';$('dbStatus').className='value status-warn';$('dbVersion').textContent='Informe uma X-API-Key válida';console.error(e)}}
+async function research(){try{const d=await getJSON('/dashboard/research-summary',false);$('vPii').textContent=fmt(d.pii.f1,2);$('vPiiSub').textContent=`${d.pii.cases} casos · leakage ${fmt(d.pii.raw_leakage_rate*100,1)}%`;$('vScore').textContent=`${d.score_policy.cases}/${d.score_policy.cases}`;$('vScoreSub').textContent=`conformidade ${(d.score_policy.conformance*100).toFixed(0)}% · monotonicidade OK`;$('vLoad').textContent=Number(d.load.total_requests).toLocaleString('pt-BR');$('vLoadSub').textContent=`8 níveis × 3 repetições · ${d.load.http_failures} falhas HTTP`;$('vN8n').textContent=`${d.n8n_e2e.requests}/${d.n8n_e2e.requests}`;$('vN8nSub').textContent=`0 falhas · média ${fmt(d.n8n_e2e.average_response_ms,0)} ms`;$('researchNote').textContent=d.scope_note||''}catch(e){console.error(e)}}
+function gauge(score,level){const s=Math.max(0,Math.min(100,Number(score)||0));const color=s>=80?'var(--red)':s>=60?'var(--yellow)':s>=30?'var(--cyan)':'var(--green)';$('gauge').style.background=`conic-gradient(${color} ${s*3.6}deg,#18304b 0deg)`;$('riskScore').textContent=Math.round(s);$('riskLevel').textContent=level||'—'}
+async function analyzeDemo(){try{const payload={src_ip:$('srcIp').value,dst_ip:$('dstIp').value,event_type:$('eventType').value,severity:$('severity').value,payload:$('payload').value};const r=await fetch('/analyze',{method:'POST',headers:authHeaders({'Content-Type':'application/json'}),body:JSON.stringify(payload)});if(!r.ok)throw new Error(`${r.status} ${await r.text()}`);const d=await r.json();gauge(d.score,d.risk_level);$('riskAction').textContent=d.recommended_action||'';$('riskExplanation').innerHTML=(d.risk_assessment?.xai_explanation||[]).slice(0,5).map(x=>`• ${x}`).join('<br>');$('analyzeResult').textContent=JSON.stringify({event_id:d.event_id,performance:d.performance,governance:{pii_count:d.governance?.pii_count??d.governance?.pii_detected?.length,compliance_status:d.governance?.compliance_status},sanitized_event:d.sanitized_event,active_response:d.active_response},null,2);await protectedData()}catch(e){$('analyzeResult').textContent='Erro: '+e.message}}
+async function refreshAll(){await health();await protectedData();await research()}
+$('apiKey').value=localStorage.getItem('siarcApiKey')||'';refreshAll();setInterval(()=>{health();if(key())protectedData()},30000);
+</script>
+</body>
+</html>

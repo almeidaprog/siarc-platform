@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import threading
 import time
+from datetime import datetime, timezone
 from collections import deque
 from dataclasses import dataclass, asdict
 from pathlib import Path
@@ -24,6 +25,7 @@ def elapsed_ms(start: float) -> float:
 
 def record_metric(metric: Dict[str, Any]) -> None:
     metric = dict(metric)
+    metric.setdefault("recorded_at", datetime.now(timezone.utc).isoformat())
     _RECENT.append(metric)
     _METRICS_PATH.parent.mkdir(parents=True, exist_ok=True)
     with _LOCK:
@@ -31,7 +33,10 @@ def record_metric(metric: Dict[str, Any]) -> None:
             fh.write(json.dumps(metric, ensure_ascii=False) + "\n")
 
 
-def recent_metrics(limit: int = 100) -> list[Dict[str, Any]]:
+def recent_metrics(limit: int = 100, run_id: str | None = None) -> list[Dict[str, Any]]:
     if limit <= 0:
         return []
-    return list(_RECENT)[-limit:]
+    data = list(_RECENT)
+    if run_id:
+        data = [m for m in data if m.get("run_id") == run_id]
+    return data[-limit:]

@@ -1,5 +1,4 @@
 {
-  "id": "bd3233af-357b-4213-a0f2-a18655fffae4",
   "name": "SIARC Julho - Resposta Ativa (Simulação de Isolamento de Host)",
   "nodes": [
     {
@@ -11,7 +10,6 @@
       },
       "id": "webhook-isolation-event",
       "name": "Receber Evento Pontuado",
-      "webhookId": "71bd8aee-8d06-479f-a725-a343a998ddb5",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [0, 0],

@@ -1,0 +1,49 @@
+{
+  "evaluation": "Expert-policy score validation",
+  "cases": 48,
+  "accuracy": 1.0,
+  "macro_f1": 1.0,
+  "per_level": {
+    "BAIXO": {
+      "tp": 12,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "MÉDIO": {
+      "tp": 12,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "ALTO": {
+      "tp": 12,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "CRÍTICO": {
+      "tp": 12,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "monotonicity_passed": true,
+  "monotonicity_scores": [
+    25,
+    45,
+    60,
+    100,
+    100
+  ],
+  "scope_note": "Measures conformance to the stated operational risk policy, not external intrusion-detection accuracy."
+}

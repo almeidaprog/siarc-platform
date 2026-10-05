@@ -10,7 +10,7 @@ import os
 from datetime import datetime, timezone
 from typing import Any, Dict, List
 
-from sqlalchemy import JSON, DateTime, Integer, String, Text, create_engine, select, func, event
+from sqlalchemy import JSON, DateTime, Integer, String, Text, create_engine, select, func, event, text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, Session
 
 
@@ -46,6 +46,12 @@ def get_engine():
     url = _database_url()
     if _engine is None or _engine_url != url:
         kwargs = {"pool_pre_ping": True, "future": True}
+        if url.startswith("postgresql"):
+            kwargs.update({
+                "pool_size": int(os.environ.get("SIARC_DB_POOL_SIZE", "10")),
+                "max_overflow": int(os.environ.get("SIARC_DB_MAX_OVERFLOW", "20")),
+                "pool_timeout": int(os.environ.get("SIARC_DB_POOL_TIMEOUT", "30")),
+            })
         if url.startswith("sqlite"):
             kwargs["connect_args"] = {"check_same_thread": False, "timeout": 60}
         _engine = create_engine(url, **kwargs)
@@ -104,18 +110,27 @@ def summary() -> Dict[str, Any]:
     init_db()
     with Session(get_engine()) as session:
         total = session.scalar(select(func.count()).select_from(AuditEntry)) or 0
-        rows = session.scalars(select(AuditEntry).order_by(AuditEntry.id)).all()
-    by_outcome: Dict[str, int] = {}
-    by_action: Dict[str, int] = {}
-    by_actor: Dict[str, int] = {}
-    for r in rows:
-        by_outcome[r.outcome] = by_outcome.get(r.outcome, 0) + 1
-        by_action[r.action] = by_action.get(r.action, 0) + 1
-        by_actor[r.actor] = by_actor.get(r.actor, 0) + 1
+        by_outcome = dict(
+            session.execute(
+                select(AuditEntry.outcome, func.count()).group_by(AuditEntry.outcome)
+            ).all()
+        )
+        by_action = dict(
+            session.execute(
+                select(AuditEntry.action, func.count()).group_by(AuditEntry.action)
+            ).all()
+        )
+        by_actor = dict(
+            session.execute(
+                select(AuditEntry.actor, func.count()).group_by(AuditEntry.actor)
+            ).all()
+        )
+        first = session.scalar(select(AuditEntry.audit_timestamp).order_by(AuditEntry.id.asc()).limit(1))
+        last = session.scalar(select(AuditEntry.audit_timestamp).order_by(AuditEntry.id.desc()).limit(1))
     return {
         "total_entries": total,
-        "first_entry": rows[0].audit_timestamp.isoformat() if rows else None,
-        "last_entry": rows[-1].audit_timestamp.isoformat() if rows else None,
+        "first_entry": first.isoformat() if first else None,
+        "last_entry": last.isoformat() if last else None,
         "by_outcome": by_outcome,
         "by_action": by_action,
         "by_actor": by_actor,
@@ -123,6 +138,42 @@ def summary() -> Dict[str, Any]:
         "lgpd_compliance": "Art. 37 - processing-operation records retained and queryable.",
     }
 
+
+
+def diagnostics() -> Dict[str, Any]:
+    """Return safe database diagnostics for reproducible experiments.
+
+    Passwords and the full DATABASE_URL are intentionally never returned.
+    """
+    init_db()
+    engine = get_engine()
+    url = _database_url()
+    backend = url.split(":", 1)[0]
+    with Session(engine) as session:
+        session.execute(text("SELECT 1"))
+        total = session.scalar(select(func.count()).select_from(AuditEntry)) or 0
+        if backend.startswith("postgresql"):
+            version = session.execute(text("SHOW server_version")).scalar_one()
+        elif backend.startswith("sqlite"):
+            version = session.execute(text("select sqlite_version()" )).scalar_one()
+        else:
+            version = "unknown"
+
+    pool = engine.pool
+    pool_status = None
+    try:
+        pool_status = pool.status()
+    except Exception:
+        pool_status = pool.__class__.__name__
+
+    return {
+        "backend": backend,
+        "database_driver": engine.dialect.driver,
+        "database_version": str(version),
+        "audit_entries": int(total),
+        "pool_class": pool.__class__.__name__,
+        "pool_status": pool_status,
+    }
 
 def _to_dict(r: AuditEntry) -> Dict[str, Any]:
     return {

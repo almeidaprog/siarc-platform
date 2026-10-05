@@ -34,13 +34,13 @@ services:
       - WEBHOOK_URL=http://localhost:5678/
       - GENERIC_TIMEZONE=America/Bahia
       - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY:-troque_esta_chave_em_producao_32_ch}
+      - N8N_BLOCK_ENV_ACCESS_IN_NODE=false
     volumes:
       - n8n_data:/home/node/.n8n
       - ./data:/data
       - ./workflows:/workflows
     networks:
       - siarc_sandbox
-
   siarc-api:
     build:
       context: .
@@ -52,15 +52,13 @@ services:
     environment:
       - DATABASE_URL=${DATABASE_URL:-postgresql+psycopg://siarc:siarc_dev_password@postgres:5432/siarc}
       - SIARC_SANITIZER_ENABLED=${SIARC_SANITIZER_ENABLED:-1}
-    depends_on:
-      postgres:
-        condition: service_healthy
     ports:
       - "8080:8080"
     volumes:
       - ./data:/app/data
     networks:
       - siarc_sandbox
+      - rt-network
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
       interval: 30s
@@ -71,7 +69,8 @@ services:
 networks:
   siarc_sandbox:
     driver: bridge
-
+  rt-network:
+    external: true
 volumes:
   n8n_data:
   postgres_data:

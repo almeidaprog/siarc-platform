@@ -1,0 +1,63 @@
+{
+  "captured_at": "2026-09-02T15:51:56.829960+00:00",
+  "os": {
+    "system": "Windows",
+    "release": "11",
+    "version": "10.0.26200",
+    "machine": "AMD64"
+  },
+  "cpu": {
+    "processor": "AMD64 Family 23 Model 96 Stepping 1, AuthenticAMD",
+    "logical_cores": 12,
+    "physical_cores": 6,
+    "frequency": {
+      "current_mhz": 3600.0,
+      "max_mhz": 3600.0
+    }
+  },
+  "memory": {
+    "total_gib": 23.89,
+    "available_gib_at_capture": 4.04
+  },
+  "python": {
+    "version": "3.13.10 (tags/v3.13.10:4fd8843, Dec  2 2025, 15:08:18) [MSC v.1944 64 bit (AMD64)]",
+    "executable": "E:\\WorkSpace\\PESONAL_PROJECTS\\SIARC\\siarc-platform-JISA\\.venv\\Scripts\\python.exe"
+  },
+  "docker_version": {
+    "ok": true,
+    "stdout": "{\"Client\":{\"Platform\":{\"Name\":\"Docker Engine - Community\"},\"Version\":\"29.5.3\",\"ApiVersion\":\"1.54\",\"DefaultAPIVersion\":\"1.54\",\"GitCommit\":\"d1c06ef\",\"GoVersion\":\"go1.26.4\",\"Os\":\"linux\",\"Arch\":\"amd64\",\"BuildTime\":\"Wed Jun  3 18:00:12 2026\",\"Context\":\"default\"},\"Server\":{\"Platform\":{\"Name\":\"Docker Engine - Community\"},\"Version\":\"29.5.3\",\"ApiVersion\":\"1.54\",\"MinAPIVersion\":\"1.40\",\"Os\":\"linux\",\"Arch\":\"amd64\",\"Components\":[{\"Name\":\"Engine\",\"Version\":\"29.5.3\",\"Details\":{\"ApiVersion\":\"1.54\",\"Arch\":\"amd64\",\"BuildTime\":\"Wed Jun  3 18:00:12 2026\",\"Experimental\":\"false\",\"GitCommit\":\"285b471\",\"GoVersion\":\"go1.26.4\",\"KernelVersion\":\"6.18.33.1-microsoft-standard-WSL2\",\"MinAPIVersion\":\"1.40\",\"Module\":\"github.com/moby/moby/v2\",\"ModuleVersion\":\"v2.0.0+unknown\",\"Os\":\"linux\"}},{\"Name\":\"containerd\",\"Version\":\"v2.2.4\",\"Details\":{\"GitCommit\":\"193637f7ee8ae5f5aa5248f49e7baa3e6164966e\"}},{\"Name\":\"runc\",\"Version\":\"1.3.5\",\"Details\":{\"GitCommit\":\"v1.3.5-0-g488fc13e\"}},{\"Name\":\"docker-init\",\"Version\":\"0.19.0\",\"Details\":{\"GitCommit\":\"de40ad0\"}}],\"GitCommit\":\"285b471\",\"GoVersion\":\"go1.26.4\",\"KernelVersion\":\"6.18.33.1-microsoft-standard-WSL2\",\"BuildTime\":\"2026-06-03T18:00:12.000000000+00:00\"}}",
+    "stderr": "",
+    "exit_code": 0
+  },
+  "docker_compose_version": {
+    "ok": true,
+    "stdout": "Docker Compose version v5.1.4",
+    "stderr": "",
+    "exit_code": 0
+  },
+  "docker_compose_ps": {
+    "ok": true,
+    "stdout": "{\"Command\":\"\\\"uvicorn scripts.siaâ€¦\\\"\",\"CreatedAt\":\"2026-09-02 12:51:16 -0300 -03\",\"ExitCode\":0,\"Health\":\"starting\",\"ID\":\"6274dc2f0a17\",\"Image\":\"siarc-platform-jisa-siarc-api\",\"Labels\":\"com.docker.compose.config-hash=414b7a8da2c4c0367c2377673c492ba54e8175bff09b7f65bad9b3e0acd9f6c2,com.docker.compose.project=siarc-platform-jisa,com.docker.compose.project.working_dir=/mnt/e/WorkSpace/PESONAL_PROJECTS/SIARC/siarc-platform-JISA,com.docker.compose.replace=siarc-api-sandbox,com.docker.compose.version=5.1.4,com.docker.compose.container-number=1,com.docker.compose.depends_on=,com.docker.compose.image=sha256:d186f7803d09b0dcfa2c8c687b74477729b7cf6c6b577b4401f90c21951ae3bb,com.docker.compose.oneoff=False,com.docker.compose.project.config_files=/mnt/e/WorkSpace/PESONAL_PROJECTS/SIARC/siarc-platform-JISA/docker-compose.yml,com.docker.compose.service=siarc-api\",\"LocalVolumes\":\"0\",\"Mounts\":\"/mnt/e/WorkSpaâ€¦\",\"Name\":\"siarc-api-sandbox\",\"Names\":\"siarc-api-sandbox\",\"Networks\":\"rt-network,siarc-platform-jisa_siarc_sandbox\",\"Ports\":\"0.0.0.0:8080-\\u003e8080/tcp, [::]:8080-\\u003e8080/tcp\",\"Project\":\"siarc-platform-jisa\",\"Publishers\":[{\"URL\":\"0.0.0.0\",\"TargetPort\":8080,\"PublishedPort\":8080,\"Protocol\":\"tcp\"},{\"URL\":\"::\",\"TargetPort\":8080,\"PublishedPort\":8080,\"Protocol\":\"tcp\"}],\"RunningFor\":\"43 seconds ago\",\"Service\":\"siarc-api\",\"Size\":\"0B\",\"State\":\"running\",\"Status\":\"Up 21 seconds (health: starting)\"}\n{\"Command\":\"\\\"tini -- /docker-entâ€¦\\\"\",\"CreatedAt\":\"2026-09-02 11:26:29 -0300 -03\",\"ExitCode\":0,\"Health\":\"\",\"ID\":\"b106f72b2cdf\",\"Image\":\"n8nio/n8n:latest\",\"Labels\":\"com.docker.dhi.version=24.18.1-alpine3.24-dev,com.docker.compose.depends_on=,com.docker.dhi.date.end-of-life=2028-04-30,com.docker.dhi.date.release=2025-05-06,com.docker.dhi.entitlement=public,org.opencontainers.image.source=https://github.com/n8n-io/n8n,org.opencontainers.image.url=https://n8n.io,com.docker.dhi.title=Node.js 24.x (dev),com.docker.dhi.url=https://dhi.io/catalog/node,com.docker.compose.config-hash=add7d5c1cd482cebb7afcc5e594d1a48fe56085ecada9523432a8c4c91e9c788,com.docker.compose.container-number=1,com.docker.compose.image=sha256:a9e2e3c8006ed453238266669ea1274be7136f515abe290a2f75a0ab9044c93d,com.docker.dhi.chain-id=sha256:a845df640efe4b0b97b771269801c3790bcdfa8f676afec2a43409a1e0856dcd,com.docker.compose.project.config_files=/mnt/e/WorkSpace/PESONAL_PROJECTS/SIARC/siarc-platform-JISA/docker-compose.yml,com.docker.compose.project.working_dir=/mnt/e/WorkSpace/PESONAL_PROJECTS/SIARC/siarc-platform-JISA,com.docker.dhi.shell=busybox,com.docker.dhi.variant=dev,org.opencontainers.image.description=Workflow Automation Tool,com.docker.compose.oneoff=False,com.docker.compose.version=5.1.4,com.docker.dhi.compliance=cis,com.docker.dhi.created=2026-07-31T05:18:45Z,com.docker.dhi.definition=image/node/alpine-3.24/24-dev,com.docker.dhi.distro=alpine-3.24,com.docker.dhi.package-manager=apk,com.docker.compose.project=siarc-platform-jisa,com.docker.compose.replace=siarc-n8n-sandbox,com.docker.compose.service=n8n,org.opencontainers.image.title=n8n,org.opencontainers.image.version=2.36.9,com.docker.dhi.flavor=,com.docker.dhi.name=dhi/node\",\"LocalVolumes\":\"1\",\"Mounts\":\"/mnt/e/WorkSpaâ€¦,siarc-platformâ€¦,/mnt/e/WorkSpaâ€¦\",\"Name\":\"siarc-n8n-sandbox\",\"Names\":\"siarc-n8n-sandbox\",\"Networks\":\"siarc-platform-jisa_siarc_sandbox\",\"Ports\":\"0.0.0.0:5678-\\u003e5678/tcp, [::]:5678-\\u003e5678/tcp\",\"Project\":\"siarc-platform-jisa\",\"Publishers\":[{\"URL\":\"0.0.0.0\",\"TargetPort\":5678,\"PublishedPort\":5678,\"Protocol\":\"tcp\"},{\"URL\":\"::\",\"TargetPort\":5678,\"PublishedPort\":5678,\"Protocol\":\"tcp\"}],\"RunningFor\":\"About an hour ago\",\"Service\":\"n8n\",\"Size\":\"0B\",\"State\":\"running\",\"Status\":\"Up About an hour\"}\n{\"Command\":\"\\\"docker-entrypoint.sâ€¦\\\"\",\"CreatedAt\":\"2026-09-02 12:25:43 -0300 -03\",\"ExitCode\":0,\"Health\":\"healthy\",\"ID\":\"598c7d0e26ae\",\"Image\":\"postgres:16-alpine\",\"Labels\":\"com.docker.compose.project.config_files=/mnt/e/WorkSpace/PESONAL_PROJECTS/SIARC/siarc-platform-JISA/docker-compose.yml,com.docker.compose.project.working_dir=/mnt/e/WorkSpace/PESONAL_PROJECTS/SIARC/siarc-platform-JISA,com.docker.compose.container-number=1,com.docker.compose.depends_on=,com.docker.compose.replace=siarc-postgres,com.docker.compose.service=postgres,com.docker.compose.version=5.1.4,com.docker.compose.config-hash=a964e0855c8ae05cfdced56154b339e77439696e476390b2eb902180d3ae451d,com.docker.compose.image=sha256:cf78e76683b9ca8c5733cbbdce6c9262b45b6767934dd0a95e671f9a0fc20685,com.docker.compose.oneoff=False,com.docker.compose.project=siarc-platform-jisa\",\"LocalVolumes\":\"1\",\"Mounts\":\"siarc-platformâ€¦\",\"Name\":\"siarc-postgres\",\"Names\":\"siarc-postgres\",\"Networks\":\"siarc-platform-jisa_siarc_sandbox\",\"Ports\":\"5432/tcp\",\"Project\":\"siarc-platform-jisa\",\"Publishers\":[{\"URL\":\"\",\"TargetPort\":5432,\"PublishedPort\":0,\"Protocol\":\"tcp\"}],\"RunningFor\":\"26 minutes ago\",\"Service\":\"postgres\",\"Size\":\"0B\",\"State\":\"running\",\"Status\":\"Up 25 minutes (healthy)\"}",
+    "stderr": "",
+    "exit_code": 0
+  },
+  "git_commit": {
+    "ok": false,
+    "stdout": "",
+    "stderr": "fatal: not a git repository (or any of the parent directories): .git",
+    "exit_code": 128
+  },
+  "git_status": {
+    "ok": false,
+    "stdout": "",
+    "stderr": "fatal: not a git repository (or any of the parent directories): .git",
+    "exit_code": 128
+  },
+  "siarc_safe_config": {
+    "POSTGRES_DB": "siarc",
+    "SIARC_SANITIZER_ENABLED": "1",
+    "SIARC_DB_POOL_SIZE": "10",
+    "SIARC_DB_MAX_OVERFLOW": "20",
+    "SIARC_DB_POOL_TIMEOUT": "30"
+  }
+}

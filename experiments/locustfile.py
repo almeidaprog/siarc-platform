@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 from locust import HttpUser, task, between
 
 API_KEY = os.environ.get("SIARC_API_KEY", "siarc-benchmark-key")
+RUN_ID = os.environ.get("SIARC_RUN_ID", "manual-locust")
 
 class SIARCLoadTestUser(HttpUser):
     wait_time = between(0.01, 0.05)
@@ -20,7 +21,7 @@ class SIARCLoadTestUser(HttpUser):
             "event_type": "exploit_attempt" if critical else random.choice(["port_scan", "brute_force", "unknown"]),
             "severity": "critical" if critical else random.choice(["low", "medium", "high"]),
             "payload": "user_email=usuario.teste@empresa.com.br CVE-2024-0001 shellcode" if critical else "login usuario.teste@empresa.com.br source=10.0.0.44",
-            "extra": {"dataset_label": "attack" if critical else "mixed"},
+            "extra": {"dataset_label": "attack" if critical else "mixed", "experiment_run_id": RUN_ID},
         }
 
     @task(4)

@@ -46,3 +46,13 @@ Thumbs.db
 *.egg-info/
 dist/
 build/
+
+# Graphify (cache local de analise)
+graphify-out/
+
+# Material de submissao (manuscritos nao publicados) - mantido apenas localmente
+docs/jisa/submission/
+docs/artigo_rsc/
+
+# Log de metricas gerado em runtime (cresce a cada requisicao)
+data/performance_metrics.jsonl

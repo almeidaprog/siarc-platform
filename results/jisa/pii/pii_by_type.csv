@@ -1,0 +1,8 @@
+pii_type,tp,fp,fn,precision,recall,f1
+cnpj,10,0,0,1.0,1.0,1.0
+cpf,15,0,0,1.0,1.0,1.0
+email,30,0,0,1.0,1.0,1.0
+ip_private,25,0,0,1.0,1.0,1.0
+nome_de_campo_sensivel,10,0,0,1.0,1.0,1.0
+phone_br,15,0,0,1.0,1.0,1.0
+rg,10,0,0,1.0,1.0,1.0

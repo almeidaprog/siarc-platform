@@ -1,0 +1,1645 @@
+{
+  "metadata": {
+    "name": "SIARC synthetic PII effectiveness corpus",
+    "seed": 20260901,
+    "real_personal_data": false,
+    "cases": 125
+  },
+  "cases": [
+    {
+      "id": "email-00",
+      "event": {
+        "payload": "authentication subject=synthetic.user00@example.org result=ok"
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "synthetic.user00@example.org"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "email-01",
+      "event": {
+        "payload": "authentication subject=synthetic.user01@example.org result=ok"
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "synthetic.user01@example.org"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "email-02",
+      "event": {
+        "payload": "authentication subject=synthetic.user02@example.org result=ok"
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "synthetic.user02@example.org"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "email-03",
+      "event": {
+        "payload": "authentication subject=synthetic.user03@example.org result=ok"
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "synthetic.user03@example.org"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "email-04",
+      "event": {
+        "payload": "authentication subject=synthetic.user04@example.org result=ok"
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "synthetic.user04@example.org"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "email-05",
+      "event": {
+        "payload": "authentication subject=synthetic.user05@example.org result=ok"
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "synthetic.user05@example.org"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "email-06",
+      "event": {
+        "payload": "authentication subject=synthetic.user06@example.org result=ok"
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "synthetic.user06@example.org"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "email-07",
+      "event": {
+        "payload": "authentication subject=synthetic.user07@example.org result=ok"
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "synthetic.user07@example.org"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "email-08",
+      "event": {
+        "payload": "authentication subject=synthetic.user08@example.org result=ok"
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "synthetic.user08@example.org"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "email-09",
+      "event": {
+        "payload": "authentication subject=synthetic.user09@example.org result=ok"
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "synthetic.user09@example.org"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "email-10",
+      "event": {
+        "payload": "authentication subject=synthetic.user10@example.org result=ok"
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "synthetic.user10@example.org"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "email-11",
+      "event": {
+        "payload": "authentication subject=synthetic.user11@example.org result=ok"
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "synthetic.user11@example.org"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "email-12",
+      "event": {
+        "payload": "authentication subject=synthetic.user12@example.org result=ok"
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "synthetic.user12@example.org"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "email-13",
+      "event": {
+        "payload": "authentication subject=synthetic.user13@example.org result=ok"
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "synthetic.user13@example.org"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "email-14",
+      "event": {
+        "payload": "authentication subject=synthetic.user14@example.org result=ok"
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "synthetic.user14@example.org"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "email-15",
+      "event": {
+        "payload": "authentication subject=synthetic.user15@example.org result=ok"
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "synthetic.user15@example.org"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "email-16",
+      "event": {
+        "payload": "authentication subject=synthetic.user16@example.org result=ok"
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "synthetic.user16@example.org"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "email-17",
+      "event": {
+        "payload": "authentication subject=synthetic.user17@example.org result=ok"
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "synthetic.user17@example.org"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "email-18",
+      "event": {
+        "payload": "authentication subject=synthetic.user18@example.org result=ok"
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "synthetic.user18@example.org"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "email-19",
+      "event": {
+        "payload": "authentication subject=synthetic.user19@example.org result=ok"
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "synthetic.user19@example.org"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cpf-00",
+      "event": {
+        "payload": "document=123.450.000-07 source=fixture"
+      },
+      "expected": [
+        {
+          "type": "cpf",
+          "value": "123.450.000-07"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cpf-01",
+      "event": {
+        "payload": "document=123.450.001-98 source=fixture"
+      },
+      "expected": [
+        {
+          "type": "cpf",
+          "value": "123.450.001-98"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cpf-02",
+      "event": {
+        "payload": "document=123.450.002-79 source=fixture"
+      },
+      "expected": [
+        {
+          "type": "cpf",
+          "value": "123.450.002-79"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cpf-03",
+      "event": {
+        "payload": "document=123.450.003-50 source=fixture"
+      },
+      "expected": [
+        {
+          "type": "cpf",
+          "value": "123.450.003-50"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cpf-04",
+      "event": {
+        "payload": "document=123.450.004-30 source=fixture"
+      },
+      "expected": [
+        {
+          "type": "cpf",
+          "value": "123.450.004-30"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cpf-05",
+      "event": {
+        "payload": "document=123.450.005-11 source=fixture"
+      },
+      "expected": [
+        {
+          "type": "cpf",
+          "value": "123.450.005-11"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cpf-06",
+      "event": {
+        "payload": "document=123.450.006-00 source=fixture"
+      },
+      "expected": [
+        {
+          "type": "cpf",
+          "value": "123.450.006-00"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cpf-07",
+      "event": {
+        "payload": "document=123.450.007-83 source=fixture"
+      },
+      "expected": [
+        {
+          "type": "cpf",
+          "value": "123.450.007-83"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cpf-08",
+      "event": {
+        "payload": "document=123.450.008-64 source=fixture"
+      },
+      "expected": [
+        {
+          "type": "cpf",
+          "value": "123.450.008-64"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cpf-09",
+      "event": {
+        "payload": "document=123.450.009-45 source=fixture"
+      },
+      "expected": [
+        {
+          "type": "cpf",
+          "value": "123.450.009-45"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cpf-10",
+      "event": {
+        "payload": "document=123.450.010-89 source=fixture"
+      },
+      "expected": [
+        {
+          "type": "cpf",
+          "value": "123.450.010-89"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cpf-11",
+      "event": {
+        "payload": "document=123.450.011-60 source=fixture"
+      },
+      "expected": [
+        {
+          "type": "cpf",
+          "value": "123.450.011-60"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cpf-12",
+      "event": {
+        "payload": "document=123.450.012-40 source=fixture"
+      },
+      "expected": [
+        {
+          "type": "cpf",
+          "value": "123.450.012-40"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cpf-13",
+      "event": {
+        "payload": "document=123.450.013-21 source=fixture"
+      },
+      "expected": [
+        {
+          "type": "cpf",
+          "value": "123.450.013-21"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cpf-14",
+      "event": {
+        "payload": "document=123.450.014-02 source=fixture"
+      },
+      "expected": [
+        {
+          "type": "cpf",
+          "value": "123.450.014-02"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cnpj-00",
+      "event": {
+        "payload": "organization_id=12.000.000/0001-70"
+      },
+      "expected": [
+        {
+          "type": "cnpj",
+          "value": "12.000.000/0001-70"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cnpj-01",
+      "event": {
+        "payload": "organization_id=12.000.000/0002-51"
+      },
+      "expected": [
+        {
+          "type": "cnpj",
+          "value": "12.000.000/0002-51"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cnpj-02",
+      "event": {
+        "payload": "organization_id=12.000.000/0003-32"
+      },
+      "expected": [
+        {
+          "type": "cnpj",
+          "value": "12.000.000/0003-32"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cnpj-03",
+      "event": {
+        "payload": "organization_id=12.000.000/0004-13"
+      },
+      "expected": [
+        {
+          "type": "cnpj",
+          "value": "12.000.000/0004-13"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cnpj-04",
+      "event": {
+        "payload": "organization_id=12.000.000/0005-02"
+      },
+      "expected": [
+        {
+          "type": "cnpj",
+          "value": "12.000.000/0005-02"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cnpj-05",
+      "event": {
+        "payload": "organization_id=12.000.000/0006-85"
+      },
+      "expected": [
+        {
+          "type": "cnpj",
+          "value": "12.000.000/0006-85"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cnpj-06",
+      "event": {
+        "payload": "organization_id=12.000.000/0007-66"
+      },
+      "expected": [
+        {
+          "type": "cnpj",
+          "value": "12.000.000/0007-66"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cnpj-07",
+      "event": {
+        "payload": "organization_id=12.000.000/0008-47"
+      },
+      "expected": [
+        {
+          "type": "cnpj",
+          "value": "12.000.000/0008-47"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cnpj-08",
+      "event": {
+        "payload": "organization_id=12.000.000/0009-28"
+      },
+      "expected": [
+        {
+          "type": "cnpj",
+          "value": "12.000.000/0009-28"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "cnpj-09",
+      "event": {
+        "payload": "organization_id=12.000.000/0010-61"
+      },
+      "expected": [
+        {
+          "type": "cnpj",
+          "value": "12.000.000/0010-61"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "phone-00",
+      "event": {
+        "payload": "callback=(11) 97000-1000"
+      },
+      "expected": [
+        {
+          "type": "phone_br",
+          "value": "(11) 97000-1000"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "phone-01",
+      "event": {
+        "payload": "callback=(12) 97001-1001"
+      },
+      "expected": [
+        {
+          "type": "phone_br",
+          "value": "(12) 97001-1001"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "phone-02",
+      "event": {
+        "payload": "callback=(13) 97002-1002"
+      },
+      "expected": [
+        {
+          "type": "phone_br",
+          "value": "(13) 97002-1002"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "phone-03",
+      "event": {
+        "payload": "callback=(14) 97003-1003"
+      },
+      "expected": [
+        {
+          "type": "phone_br",
+          "value": "(14) 97003-1003"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "phone-04",
+      "event": {
+        "payload": "callback=(15) 97004-1004"
+      },
+      "expected": [
+        {
+          "type": "phone_br",
+          "value": "(15) 97004-1004"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "phone-05",
+      "event": {
+        "payload": "callback=(16) 97005-1005"
+      },
+      "expected": [
+        {
+          "type": "phone_br",
+          "value": "(16) 97005-1005"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "phone-06",
+      "event": {
+        "payload": "callback=(17) 97006-1006"
+      },
+      "expected": [
+        {
+          "type": "phone_br",
+          "value": "(17) 97006-1006"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "phone-07",
+      "event": {
+        "payload": "callback=(18) 97007-1007"
+      },
+      "expected": [
+        {
+          "type": "phone_br",
+          "value": "(18) 97007-1007"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "phone-08",
+      "event": {
+        "payload": "callback=(11) 97008-1008"
+      },
+      "expected": [
+        {
+          "type": "phone_br",
+          "value": "(11) 97008-1008"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "phone-09",
+      "event": {
+        "payload": "callback=(12) 97009-1009"
+      },
+      "expected": [
+        {
+          "type": "phone_br",
+          "value": "(12) 97009-1009"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "phone-10",
+      "event": {
+        "payload": "callback=(13) 97010-1010"
+      },
+      "expected": [
+        {
+          "type": "phone_br",
+          "value": "(13) 97010-1010"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "phone-11",
+      "event": {
+        "payload": "callback=(14) 97011-1011"
+      },
+      "expected": [
+        {
+          "type": "phone_br",
+          "value": "(14) 97011-1011"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "phone-12",
+      "event": {
+        "payload": "callback=(15) 97012-1012"
+      },
+      "expected": [
+        {
+          "type": "phone_br",
+          "value": "(15) 97012-1012"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "phone-13",
+      "event": {
+        "payload": "callback=(16) 97013-1013"
+      },
+      "expected": [
+        {
+          "type": "phone_br",
+          "value": "(16) 97013-1013"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "phone-14",
+      "event": {
+        "payload": "callback=(17) 97014-1014"
+      },
+      "expected": [
+        {
+          "type": "phone_br",
+          "value": "(17) 97014-1014"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "rg-00",
+      "event": {
+        "payload": "rg=10.100.200-0"
+      },
+      "expected": [
+        {
+          "type": "rg",
+          "value": "10.100.200-0"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "rg-01",
+      "event": {
+        "payload": "rg=11.101.201-1"
+      },
+      "expected": [
+        {
+          "type": "rg",
+          "value": "11.101.201-1"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "rg-02",
+      "event": {
+        "payload": "rg=12.102.202-2"
+      },
+      "expected": [
+        {
+          "type": "rg",
+          "value": "12.102.202-2"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "rg-03",
+      "event": {
+        "payload": "rg=13.103.203-3"
+      },
+      "expected": [
+        {
+          "type": "rg",
+          "value": "13.103.203-3"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "rg-04",
+      "event": {
+        "payload": "rg=14.104.204-4"
+      },
+      "expected": [
+        {
+          "type": "rg",
+          "value": "14.104.204-4"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "rg-05",
+      "event": {
+        "payload": "rg=15.105.205-5"
+      },
+      "expected": [
+        {
+          "type": "rg",
+          "value": "15.105.205-5"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "rg-06",
+      "event": {
+        "payload": "rg=16.106.206-6"
+      },
+      "expected": [
+        {
+          "type": "rg",
+          "value": "16.106.206-6"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "rg-07",
+      "event": {
+        "payload": "rg=17.107.207-7"
+      },
+      "expected": [
+        {
+          "type": "rg",
+          "value": "17.107.207-7"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "rg-08",
+      "event": {
+        "payload": "rg=18.108.208-8"
+      },
+      "expected": [
+        {
+          "type": "rg",
+          "value": "18.108.208-8"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "rg-09",
+      "event": {
+        "payload": "rg=10.109.209-9"
+      },
+      "expected": [
+        {
+          "type": "rg",
+          "value": "10.109.209-9"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "private-ip-00",
+      "event": {
+        "payload": "internal_client=10.10.20.30"
+      },
+      "expected": [
+        {
+          "type": "ip_private",
+          "value": "10.10.20.30"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "private-ip-01",
+      "event": {
+        "payload": "internal_client=10.11.21.31"
+      },
+      "expected": [
+        {
+          "type": "ip_private",
+          "value": "10.11.21.31"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "private-ip-02",
+      "event": {
+        "payload": "internal_client=10.12.22.32"
+      },
+      "expected": [
+        {
+          "type": "ip_private",
+          "value": "10.12.22.32"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "private-ip-03",
+      "event": {
+        "payload": "internal_client=10.13.23.33"
+      },
+      "expected": [
+        {
+          "type": "ip_private",
+          "value": "10.13.23.33"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "private-ip-04",
+      "event": {
+        "payload": "internal_client=10.14.24.34"
+      },
+      "expected": [
+        {
+          "type": "ip_private",
+          "value": "10.14.24.34"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "private-ip-05",
+      "event": {
+        "payload": "internal_client=10.15.25.35"
+      },
+      "expected": [
+        {
+          "type": "ip_private",
+          "value": "10.15.25.35"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "private-ip-06",
+      "event": {
+        "payload": "internal_client=10.16.26.36"
+      },
+      "expected": [
+        {
+          "type": "ip_private",
+          "value": "10.16.26.36"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "private-ip-07",
+      "event": {
+        "payload": "internal_client=10.17.27.37"
+      },
+      "expected": [
+        {
+          "type": "ip_private",
+          "value": "10.17.27.37"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "private-ip-08",
+      "event": {
+        "payload": "internal_client=10.18.28.38"
+      },
+      "expected": [
+        {
+          "type": "ip_private",
+          "value": "10.18.28.38"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "private-ip-09",
+      "event": {
+        "payload": "internal_client=10.19.29.39"
+      },
+      "expected": [
+        {
+          "type": "ip_private",
+          "value": "10.19.29.39"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "private-ip-10",
+      "event": {
+        "payload": "internal_client=10.20.30.40"
+      },
+      "expected": [
+        {
+          "type": "ip_private",
+          "value": "10.20.30.40"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "private-ip-11",
+      "event": {
+        "payload": "internal_client=10.21.31.41"
+      },
+      "expected": [
+        {
+          "type": "ip_private",
+          "value": "10.21.31.41"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "private-ip-12",
+      "event": {
+        "payload": "internal_client=10.22.32.42"
+      },
+      "expected": [
+        {
+          "type": "ip_private",
+          "value": "10.22.32.42"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "private-ip-13",
+      "event": {
+        "payload": "internal_client=10.23.33.43"
+      },
+      "expected": [
+        {
+          "type": "ip_private",
+          "value": "10.23.33.43"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "private-ip-14",
+      "event": {
+        "payload": "internal_client=10.24.34.44"
+      },
+      "expected": [
+        {
+          "type": "ip_private",
+          "value": "10.24.34.44"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "sensitive-field-00",
+      "event": {
+        "username": "synthetic-login-00"
+      },
+      "expected": [
+        {
+          "type": "nome_de_campo_sensivel",
+          "value": "synthetic-login-00"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "sensitive-field-01",
+      "event": {
+        "username": "synthetic-login-01"
+      },
+      "expected": [
+        {
+          "type": "nome_de_campo_sensivel",
+          "value": "synthetic-login-01"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "sensitive-field-02",
+      "event": {
+        "username": "synthetic-login-02"
+      },
+      "expected": [
+        {
+          "type": "nome_de_campo_sensivel",
+          "value": "synthetic-login-02"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "sensitive-field-03",
+      "event": {
+        "username": "synthetic-login-03"
+      },
+      "expected": [
+        {
+          "type": "nome_de_campo_sensivel",
+          "value": "synthetic-login-03"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "sensitive-field-04",
+      "event": {
+        "username": "synthetic-login-04"
+      },
+      "expected": [
+        {
+          "type": "nome_de_campo_sensivel",
+          "value": "synthetic-login-04"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "sensitive-field-05",
+      "event": {
+        "username": "synthetic-login-05"
+      },
+      "expected": [
+        {
+          "type": "nome_de_campo_sensivel",
+          "value": "synthetic-login-05"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "sensitive-field-06",
+      "event": {
+        "username": "synthetic-login-06"
+      },
+      "expected": [
+        {
+          "type": "nome_de_campo_sensivel",
+          "value": "synthetic-login-06"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "sensitive-field-07",
+      "event": {
+        "username": "synthetic-login-07"
+      },
+      "expected": [
+        {
+          "type": "nome_de_campo_sensivel",
+          "value": "synthetic-login-07"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "sensitive-field-08",
+      "event": {
+        "username": "synthetic-login-08"
+      },
+      "expected": [
+        {
+          "type": "nome_de_campo_sensivel",
+          "value": "synthetic-login-08"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "sensitive-field-09",
+      "event": {
+        "username": "synthetic-login-09"
+      },
+      "expected": [
+        {
+          "type": "nome_de_campo_sensivel",
+          "value": "synthetic-login-09"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "nested-00",
+      "event": {
+        "extra": {
+          "contacts": [
+            "nested0@example.net",
+            {
+              "origin": "192.168.1.10"
+            }
+          ]
+        }
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "nested0@example.net"
+        },
+        {
+          "type": "ip_private",
+          "value": "192.168.1.10"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "nested-01",
+      "event": {
+        "extra": {
+          "contacts": [
+            "nested1@example.net",
+            {
+              "origin": "192.168.2.11"
+            }
+          ]
+        }
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "nested1@example.net"
+        },
+        {
+          "type": "ip_private",
+          "value": "192.168.2.11"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "nested-02",
+      "event": {
+        "extra": {
+          "contacts": [
+            "nested2@example.net",
+            {
+              "origin": "192.168.3.12"
+            }
+          ]
+        }
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "nested2@example.net"
+        },
+        {
+          "type": "ip_private",
+          "value": "192.168.3.12"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "nested-03",
+      "event": {
+        "extra": {
+          "contacts": [
+            "nested3@example.net",
+            {
+              "origin": "192.168.4.13"
+            }
+          ]
+        }
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "nested3@example.net"
+        },
+        {
+          "type": "ip_private",
+          "value": "192.168.4.13"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "nested-04",
+      "event": {
+        "extra": {
+          "contacts": [
+            "nested4@example.net",
+            {
+              "origin": "192.168.5.14"
+            }
+          ]
+        }
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "nested4@example.net"
+        },
+        {
+          "type": "ip_private",
+          "value": "192.168.5.14"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "nested-05",
+      "event": {
+        "extra": {
+          "contacts": [
+            "nested5@example.net",
+            {
+              "origin": "192.168.6.15"
+            }
+          ]
+        }
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "nested5@example.net"
+        },
+        {
+          "type": "ip_private",
+          "value": "192.168.6.15"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "nested-06",
+      "event": {
+        "extra": {
+          "contacts": [
+            "nested6@example.net",
+            {
+              "origin": "192.168.7.16"
+            }
+          ]
+        }
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "nested6@example.net"
+        },
+        {
+          "type": "ip_private",
+          "value": "192.168.7.16"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "nested-07",
+      "event": {
+        "extra": {
+          "contacts": [
+            "nested7@example.net",
+            {
+              "origin": "192.168.8.17"
+            }
+          ]
+        }
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "nested7@example.net"
+        },
+        {
+          "type": "ip_private",
+          "value": "192.168.8.17"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "nested-08",
+      "event": {
+        "extra": {
+          "contacts": [
+            "nested8@example.net",
+            {
+              "origin": "192.168.9.18"
+            }
+          ]
+        }
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "nested8@example.net"
+        },
+        {
+          "type": "ip_private",
+          "value": "192.168.9.18"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "nested-09",
+      "event": {
+        "extra": {
+          "contacts": [
+            "nested9@example.net",
+            {
+              "origin": "192.168.10.19"
+            }
+          ]
+        }
+      },
+      "expected": [
+        {
+          "type": "email",
+          "value": "nested9@example.net"
+        },
+        {
+          "type": "ip_private",
+          "value": "192.168.10.19"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "negative-00",
+      "event": {
+        "payload": "CVE-2024-3094 severity=high"
+      },
+      "expected": [],
+      "notes": "negative control"
+    },
+    {
+      "id": "negative-01",
+      "event": {
+        "payload": "public_ip=203.0.113.88"
+      },
+      "expected": [],
+      "notes": "negative control"
+    },
+    {
+      "id": "negative-02",
+      "event": {
+        "payload": "public_ip=198.51.100.42"
+      },
+      "expected": [],
+      "notes": "negative control"
+    },
+    {
+      "id": "negative-03",
+      "event": {
+        "payload": "uuid=550e8400-e29b-41d4-a716-446655440000"
+      },
+      "expected": [],
+      "notes": "negative control"
+    },
+    {
+      "id": "negative-04",
+      "event": {
+        "payload": "timestamp=2026-09-01T12:34:56Z"
+      },
+      "expected": [],
+      "notes": "negative control"
+    },
+    {
+      "id": "negative-05",
+      "event": {
+        "payload": "sha256=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": [],
+      "notes": "negative control"
+    },
+    {
+      "id": "negative-06",
+      "event": {
+        "payload": "order=1234567890"
+      },
+      "expected": [],
+      "notes": "negative control"
+    },
+    {
+      "id": "negative-07",
+      "event": {
+        "payload": "port=5432 pid=12345"
+      },
+      "expected": [],
+      "notes": "negative control"
+    },
+    {
+      "id": "negative-08",
+      "event": {
+        "payload": "version=10.20.30"
+      },
+      "expected": [],
+      "notes": "negative control"
+    },
+    {
+      "id": "negative-09",
+      "event": {
+        "payload": "invalid_private_ip=10.999.1.1"
+      },
+      "expected": [],
+      "notes": "negative control"
+    },
+    {
+      "id": "negative-10",
+      "event": {
+        "payload": "invalid_cpf=111.111.111-11"
+      },
+      "expected": [],
+      "notes": "negative control"
+    },
+    {
+      "id": "negative-11",
+      "event": {
+        "payload": "invalid_cnpj=11.111.111/1111-11"
+      },
+      "expected": [],
+      "notes": "negative control"
+    },
+    {
+      "id": "negative-12",
+      "event": {
+        "payload": "text without identifiers"
+      },
+      "expected": [],
+      "notes": "negative control"
+    },
+    {
+      "id": "negative-13",
+      "event": {
+        "payload": "user agent Mozilla/5.0"
+      },
+      "expected": [],
+      "notes": "negative control"
+    },
+    {
+      "id": "negative-14",
+      "event": {
+        "payload": "MAC=AA:BB:CC:DD:EE:FF"
+      },
+      "expected": [],
+      "notes": "negative control"
+    },
+    {
+      "id": "negative-15",
+      "event": {
+        "payload": "IPv6 documentation=2001:db8::1"
+      },
+      "expected": [],
+      "notes": "negative control"
+    },
+    {
+      "id": "negative-16",
+      "event": {
+        "payload": "ticket 000123456789"
+      },
+      "expected": [],
+      "notes": "negative control"
+    },
+    {
+      "id": "negative-17",
+      "event": {
+        "payload": "decimal=123.456.789"
+      },
+      "expected": [],
+      "notes": "negative control"
+    },
+    {
+      "id": "negative-18",
+      "event": {
+        "payload": "phone-like short=1234-5678"
+      },
+      "expected": [],
+      "notes": "negative control"
+    },
+    {
+      "id": "negative-19",
+      "event": {
+        "payload": "CNPJ label only, no value"
+      },
+      "expected": [],
+      "notes": "negative control"
+    }
+  ]
+}

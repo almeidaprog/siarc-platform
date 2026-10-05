@@ -3,6 +3,7 @@ API principal do SIARC
 
 Endpoints disponíveis:
   GET  /health                     — verificação de saúde
+  GET  /dashboard                  — dashboard de governança e risco
   POST /analyze                    — análise completa com LGPD + risco XAI + auditoria
   POST /analyze/exploit            — análise especializada de exploits e malwares mutáveis
   POST /analyze/exploit/batch      — análise em lote com correlação entre eventos
@@ -21,9 +22,10 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, Depends, FastAPI, Header, HTTPException, Query, Request
+from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
 
-from scripts.lgpd_engine import apply_lgpd_governance, LegalBasis
+from scripts.lgpd_engine import apply_lgpd_governance, LegalBasis, sanitize_field
 from scripts.risk_engine import calculate_risk
 from scripts.active_response import build_active_response
 from scripts.exploit_analyzer import (
@@ -33,6 +35,7 @@ from scripts.exploit_analyzer import (
 )
 from scripts import audit_trail
 from scripts.performance import record_metric, recent_metrics
+from scripts.persistence import diagnostics as database_diagnostics
 
 app = FastAPI(
     title="SIARC — Sistema Inteligente de Auditoria e Resiliência Cibernética",
@@ -41,10 +44,11 @@ app = FastAPI(
         "Implementa conformidade LGPD (Lei 13.709/2018), scoring XAI, "
         "trilha de auditoria e análise especializada de exploits (Sprint Junho/2026)."
     ),
-    version="0.4.0",
+    version="0.5.0",
 )
 
 _POLICIES_PATH = Path("data/governance_policies.json")
+_DASHBOARD_DIR = Path(__file__).resolve().parent.parent / "dashboard"
 
 
 @app.middleware("http")
@@ -109,7 +113,25 @@ class ExploitBatchRequest(BaseModel):
 
 @app.get("/health", summary="Health check")
 def health() -> Dict[str, str]:
-    return {"status": "ok", "service": "siarc-api", "version": "0.4.0"}
+    return {"status": "ok", "service": "siarc-api", "version": "0.5.0"}
+
+
+@app.get("/dashboard", include_in_schema=False)
+def dashboard() -> FileResponse:
+    """Operational governance dashboard. Data endpoints remain API-key protected."""
+    path = _DASHBOARD_DIR / "index.html"
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="Dashboard não encontrado.")
+    return FileResponse(path, media_type="text/html")
+
+
+@app.get("/dashboard/research-summary", include_in_schema=False)
+def dashboard_research_summary() -> JSONResponse:
+    """Aggregated, non-sensitive validation snapshot used by the September dashboard."""
+    path = _DASHBOARD_DIR / "research_summary.json"
+    if not path.exists():
+        return JSONResponse({"status": "not_available"}, status_code=404)
+    return JSONResponse(json.loads(path.read_text(encoding="utf-8")))
 
 
 @router.post(
@@ -150,10 +172,13 @@ def analyze(event: SecurityEvent) -> Dict[str, Any]:
     risk = calculate_risk(raw)
     t_score_ms = (time.perf_counter() - score_start) * 1000.0
 
+    # Downstream response and audit use a privacy-safe target identifier. The raw
+    # source IP is used only transiently for in-memory feature extraction.
+    safe_target_ip, _ = sanitize_field("src_ip", raw.get("src_ip"))
     active_response = build_active_response(
         score=risk.score,
         risk_level=risk.level,
-        target_ip=raw.get("src_ip"),
+        target_ip=safe_target_ip,
         event_id=event_id,
     )
 
@@ -171,7 +196,8 @@ def analyze(event: SecurityEvent) -> Dict[str, Any]:
             "recommended_action": risk.recommended_action,
             "active_response_action": active_response["action"],
             "active_response_status": active_response["status"],
-            "target_ip": raw.get("src_ip"),
+            # Privacy boundary: persist only the sanitized/pseudonymized target.
+            "target_ip": safe_target_ip,
             "compliance_status": gov_decision.compliance_status,
             "sanitizer_enabled": sanitizer_enabled,
         },
@@ -186,7 +212,8 @@ def analyze(event: SecurityEvent) -> Dict[str, Any]:
         "t_total_ms": round(t_total_ms, 4),
         "sanitizer_enabled": sanitizer_enabled,
     }
-    record_metric({"event_id": event_id, **metrics})
+    run_id = (raw.get("extra") or {}).get("experiment_run_id") if isinstance(raw.get("extra"), dict) else None
+    record_metric({"event_id": event_id, "run_id": run_id, **metrics})
 
     return {
         "event_id": event_id,
@@ -410,9 +437,17 @@ def audit_summary() -> Dict[str, Any]:
 
 
 @router.get("/metrics/recent", summary="Recent stage-level performance measurements")
-def metrics_recent(limit: int = Query(default=100, ge=1, le=5000)) -> Dict[str, Any]:
-    data = recent_metrics(limit)
-    return {"count": len(data), "metrics": data}
+def metrics_recent(
+    limit: int = Query(default=100, ge=1, le=5000),
+    run_id: Optional[str] = Query(default=None),
+) -> Dict[str, Any]:
+    data = recent_metrics(limit, run_id=run_id)
+    return {"count": len(data), "run_id": run_id, "metrics": data}
+
+
+@router.get("/diagnostics/database", summary="Safe database diagnostics for experiments")
+def diagnostics_database() -> Dict[str, Any]:
+    return database_diagnostics()
 
 
 app.include_router(router)
